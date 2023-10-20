@@ -1,6 +1,7 @@
 ﻿using DoX.BAI.ImpEx.Client.BAIService;
 using DoX.BAI.ImpEx.Shared;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -186,7 +187,8 @@ namespace DoX.BAI.ImpEx.Client
 
                     // --- Dem temporären Zertifkat vertrauen
 #if DEBUG
-                    PermissiveCertifikatePolicy.Encat("CN=bai01.dorner-asp.com, OU=Domain Validated, OU=Thawte SSL123 certificate, OU=Go to https://www.thawte.com/repository/index.html, O=bai01.dorner-asp.com");
+                    PermissiveCertifikatePolicy.Enact();
+
 #endif
 
 #if !NO_IPC
@@ -1158,7 +1160,10 @@ namespace DoX.BAI.ImpEx.Client
             }
 
             if (data.Count == 0)
+            {
+                Console.WriteLine("Server hat keine Daten für Import");
                 WriteLogEntry(MethodBase.GetCurrentMethod(), "Server hat keine Daten für Import", EventLogEntryType.Information);
+            }
 
             // --- Alle importierten Datenkategorien durchgehen
             var imported = ImportDataEntries(data, argOverwriteFile);
@@ -1196,6 +1201,14 @@ namespace DoX.BAI.ImpEx.Client
             }
         }
 
+        public static string ConvertXmlToJson(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            string json = JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.Indented, true);
+            return json;
+        }
+
         private IEnumerable<string> ImportDataEntries(IEnumerable<DataEntry> data, bool argOverwriteFile = false)
         {
             var imported = new List<string>();
@@ -1204,172 +1217,59 @@ namespace DoX.BAI.ImpEx.Client
             {
                 try
                 {
-                    // --- Gültiges Import-Verzeichnis?
-                    if (String.IsNullOrEmpty(import.Location))
-                    {
-                        WriteLogEntry(MethodBase.GetCurrentMethod(), "Für die Datenkategorie " + import.Category + " ist keine Location angegeben", EventLogEntryType.Warning);
-                        break;
-                    }
-
-                    String importDir = GetAbsoluteDirectory(import.Location);
-                    if (!Directory.Exists(importDir))
-                    {
-                        WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("Das Verzeichnis {0} für die Datenkategorie {1} existiert nicht", importDir, import.Category), EventLogEntryType.Warning);
-                        break;
-                    }
-
-                    DirectoryInfo di = new DirectoryInfo(importDir);
-
-                    // --- Archiv-Unterverzeichnis aufräumen
-                    ReorgArchiv(di);
+                    Console.WriteLine("Datenkategorie: " + import.Category);
 
                     var cfgEntry = _ServerSideConfig.ConfigEntries.FirstOrDefault(c => string.Equals(c.Ident.Category, import.Category, StringComparison.InvariantCultureIgnoreCase) && string.Equals(c.Ident.Location, import.Location, StringComparison.InvariantCultureIgnoreCase));
+
                     if (cfgEntry == null || !cfgEntry.Enabled)
                     {
-                        // --- Das kann beim disablen einer Datenkategorie im laufenden Betrieb passieren. Der BAI-Server hat dann Daten einer Datenkategorie für uns, die mittlerweile nicht mehr enabled ist.
-                        //     In diesem Fall wollen so tun als übernehmen wir die Daten korrekt.
-                        imported.Add(import.Category);
+                        Console.WriteLine("Die Datenkategorie ist nicht aktiv oder nicht vorhanden.");
                         continue;
                     }
 
-                    string fileName;
-                    DateTime dt = DateTime.Now;
-                    if (!TryGetImportFileName(dt, cfgEntry, import.Category, out fileName))
-                        break;
-
-
-                    
-                    if (!string.IsNullOrEmpty(import.Tag) && fileName.Contains("[DATEINAME]"))
-                    {
-                        WriteLogEntry(MethodBase.GetCurrentMethod(), "[DATEINAME] vorher:" + import.Tag + "Filename voher: " + fileName, EventLogEntryType.Warning);
-                        fileName = fileName.Replace("[DATEINAME]", Path.GetFileName(import.Tag));
-                        WriteLogEntry(MethodBase.GetCurrentMethod(), "Filename nachher:" + fileName, EventLogEntryType.Warning);
-
-                    }
-                    if (!string.IsNullOrEmpty(import.Tag) && fileName.Contains("[DATEINAMENOEXT]"))
-                    {
-                        WriteLogEntry(MethodBase.GetCurrentMethod(), "[DATEINAMENOEXT] vorher:" + import.Tag + "Filename voher: " + fileName, EventLogEntryType.Warning);
-                        fileName = fileName.Replace("[DATEINAMENOEXT]", Path.GetFileNameWithoutExtension(import.Tag));
-                        WriteLogEntry(MethodBase.GetCurrentMethod(), "Filename nachher:" + fileName, EventLogEntryType.Warning);
-                    }
-
-                    if (Properties.Settings.Default.LogImportedData)
-                    {
-                        var lfd = 0;
-                        foreach (var dataItem in data)
-                        {
-                            File.WriteAllText(Path.Combine(di.FullName, DateTime.Now.ToString("HH-mm-ss-fffff") + "-" + lfd.ToString("00") + "-" + dataItem.Category + ".temp.xml"), dataItem.Data);
-                            lfd++;
-                        }
-                    }
-
-                    Encoding enc = GetEncoding(cfgEntry);
-                    String destFileName = Path.Combine(di.FullName, fileName);
-                    String destTmpFileName = destFileName + ".tmp";
-
-                    // --- Alle Dateien im Import-Verzeichnis bestimmen, die bis auf die Extension
-                    //     den gleichen Dateinamen wie die zu importierende Datei haben
-                    SortedList<int, FileInfo> extensions = new SortedList<int, FileInfo>();
-                    String newFileName = String.Format("{0}.{1}", destFileName, "001");
-
-                    var fileList = di.GetFiles(Path.GetFileNameWithoutExtension(newFileName) + ".???");
-
-                    foreach (FileInfo tmpFile in fileList)
-                    {
-                        if (HasNumericFileExtension(tmpFile))
-                            extensions.Add(Int32.Parse(tmpFile.Extension.TrimStart(".".ToCharArray())), tmpFile);
-                    }
-
-                    // --- Sind schon Dateien im Import-Verzeichnis mit diesem Namen vorhanden?
-                    if (extensions.Count > 0)
-                    {
-                        // --- Neue, eindeutige numerische Extension bestimmen
-                        Int32 newExt = (Int32)extensions.Keys.Max() + 1;
-                        if (newExt > 999)
-                        {
-                            WriteLogEntry(MethodBase.GetCurrentMethod(), "Zuviele temporäre Dateien im Verzeichnis:\r\n" + di.FullName + "\r\nDie Daten können nicht übernommen werden!", EventLogEntryType.Error);
-                            continue;
-                        }
-                        newFileName = newFileName.Replace(Path.GetExtension(newFileName), "." + newExt.ToString("000"));
-                    }
-
-                    // --- Daten in temporäre Datei mit numerischer Extension schreiben
                     var format = cfgEntry.Ident.DataFormat;
                     if (format == DataFormat.Xml)
                     {
-                        // --- ohne Root-Element?
-
-                        // --- Xml-Datei erstellen
-                        XmlWriterSettings settings = new XmlWriterSettings();
-                        settings.Encoding = enc;
-                        settings.Indent = true;
-                        settings.OmitXmlDeclaration = false;
-                        settings.CloseOutput = true;
-
-                        using (XmlWriter wr = XmlWriter.Create(newFileName, settings))
-                        {
-                            if (cfgEntry.Ident.IgnoreRootElements)
-                            {
-                                var xmlDeclaration = string.Format("version=\"1.0\" encoding=\"{0}\" standalone=\"yes\"", enc.WebName.ToString());
-                                wr.WriteProcessingInstruction("xml", xmlDeclaration);
-                            }
-
-                            using (XmlReader rd = XmlReader.Create(new StringReader(import.Data)))
-                            {
-                                wr.WriteNode(rd, true);
-                            }
-                        }
+                        var jsonData = ConvertXmlToJson(import.Data);
+                        dynamic dataConverted = JsonConvert.DeserializeObject(jsonData);
+                        Console.WriteLine(dataConverted);
+                        //// Einfach die XML-Daten ausgeben
+                        //Console.WriteLine(import.Data);
                     }
                     else if (format == DataFormat.RawData)
                     {
+                        // Base64-string in lesbaren Text konvertieren
                         var base64String = import.Data;
                         var bytes = Convert.FromBase64String(base64String);
-                        File.WriteAllBytes(destFileName, bytes);
+                        var decodedData = Encoding.UTF8.GetString(bytes);
+                        Console.WriteLine(decodedData);
                     }
                     else
                     {
-                        // --- 'Normale' Text-Datei erstellen
-                        //Erkennung
-
+                        // Ausgabe für 'normale' Textdaten
                         if (import.Data.Contains("%0x"))
                         {
-                            import.Data = ReplaceStringDelimiterWithAsciiDelimiter(import.Data);
+                            var formattedData = ReplaceStringDelimiterWithAsciiDelimiter(import.Data);
+                            Console.WriteLine(formattedData);
                         }
-
-                        File.WriteAllText(newFileName, import.Data, enc);
+                        else
+                        {
+                            Console.WriteLine(import.Data);
+                        }
                     }
-
-                    // --- Alle Dateien mit gleichem Stamm-Namen (z.B. rzlab.txt.001, rzlab.txt.002, rzlab.txt.003, usw.)
-                    //     in der richtigen Reihenfolge in einer tmp-Datei (z.B. rzlab.tmp) zusammenfassen.
-                    if (format != DataFormat.RawData)
-                    {
-                        AppendImportFiles(di, cfgEntry, enc, destTmpFileName);
-                    }
-
-                    // --- Zum Schluß die tmp-Datei umbenennen
-                    if (true) //!argOverwriteFile
-                    {
-                        //if (true) //!argOverwriteFile
-                        //{
-                        RenameImportedTmpFiles(di, cfgEntry);
-
-                    }
-
-                    //}
-                    //ORG
-                    //if (!OverwriteExportFile(tempConfig))
-                    //    RenameImportedTmpFiles(new DirectoryInfo(configEntry.Ident.Location), configEntry);
 
                     imported.Add(import.Category);
                 }
                 catch (Exception ex)
                 {
-                    WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("Fehler beim Import der Datenkategorie {0}:\r\n{1}", import.Category, ex), EventLogEntryType.Warning);
-                    break;
+                    Console.WriteLine(String.Format("Fehler beim Import der Datenkategorie {0}:\r\n{1}", import.Category, ex));
                 }
             }
+
             return imported;
         }
+
+
 
         private string ReplaceStringDelimiterWithAsciiDelimiter(string argData)
         {
@@ -2141,18 +2041,16 @@ namespace DoX.BAI.ImpEx.Client
 #if DEBUG
         private class PermissiveCertifikatePolicy
         {
-            readonly String _SubjectName;
             static PermissiveCertifikatePolicy _CurrentPolicy;
 
-            private PermissiveCertifikatePolicy(String subjectName)
+            private PermissiveCertifikatePolicy()
             {
-                _SubjectName = subjectName;
-                ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, error) => (cert.Subject == _SubjectName);
+                ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, error) => true;
             }
 
-            public static void Encat(String subjectName)
+            public static void Enact()
             {
-                _CurrentPolicy = new PermissiveCertifikatePolicy(subjectName);
+                _CurrentPolicy = new PermissiveCertifikatePolicy();
             }
         }
 #endif
