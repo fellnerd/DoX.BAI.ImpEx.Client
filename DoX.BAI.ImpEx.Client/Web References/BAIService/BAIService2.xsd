@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:7777/BAIService/BAIService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:7777/BAIService/BAIService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="BAIUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identifier" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MacAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Version" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BAIUser" nillable="true" type="tns:BAIUser" />
+  <xs:complexType name="BAIResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ResultType" type="tns:BAIResultType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BAIResult" nillable="true" type="tns:BAIResult" />
+  <xs:simpleType name="BAIResultType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OK">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Error">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AuthenticationFailure">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ConfigFailure">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="BAIResultType" nillable="true" type="tns:BAIResultType" />
+  <xs:complexType name="Config">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ConfigEntries" nillable="true" type="tns:ArrayOfConfigEntry" />
+      <xs:element minOccurs="0" name="ConfigTimerIntervall" type="xs:int" />
+      <xs:element minOccurs="0" name="DataExchangeTime" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Enabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Events" type="tns:Events" />
+      <xs:element minOccurs="0" name="HoursToLog" type="xs:int" />
+      <xs:element minOccurs="0" name="IpAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LogEntryType" type="xs:int" />
+      <xs:element minOccurs="0" name="MacAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MaxKBClientToServer" type="xs:int" />
+      <xs:element minOccurs="0" name="MaxRecCntServerToClient" type="xs:int" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Metadata" nillable="true" type="q1:ArrayOfKeyValueOfstringstring" />
+      <xs:element minOccurs="0" name="NotificationAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PartitionId" type="xs:int" />
+      <xs:element minOccurs="0" name="PollForDataIntervall" type="xs:int" />
+      <xs:element minOccurs="0" name="ReorgHoursExport" type="xs:int" />
+      <xs:element minOccurs="0" name="ReorgHoursImport" type="xs:int" />
+      <xs:element minOccurs="0" name="UniqueAccessPoint" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UpdateDir" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Config" nillable="true" type="tns:Config" />
+  <xs:complexType name="ArrayOfConfigEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ConfigEntry" nillable="true" type="tns:ConfigEntry" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfConfigEntry" nillable="true" type="tns:ArrayOfConfigEntry" />
+  <xs:complexType name="ConfigEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Contract" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Enabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Encoding" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FilePattern" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FilterExpression" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FlagFileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ident" nillable="true" type="tns:ConfigEntryIdent" />
+      <xs:element minOccurs="0" name="Notification" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Priority" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ConfigEntry" nillable="true" type="tns:ConfigEntry" />
+  <xs:complexType name="ConfigEntryIdent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CSVColDelimiter" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Category" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContractVersion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DataFormat" type="tns:DataFormat" />
+      <xs:element minOccurs="0" name="Direction" type="tns:Direction" />
+      <xs:element minOccurs="0" name="Location" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+	  <xs:element minOccurs="0" name="IgnoreRootElements" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ConfigEntryIdent" nillable="true" type="tns:ConfigEntryIdent" />
+  <xs:simpleType name="DataFormat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Unknown">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Xml">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FixedLength">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Csv">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RawData">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="DataFormat" nillable="true" type="tns:DataFormat" />
+  <xs:simpleType name="Direction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ServerToClient">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ClientToServer">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Direction" nillable="true" type="tns:Direction" />
+  <xs:simpleType name="Events">
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="UpdateAvailable" />
+          <xs:enumeration value="SendLogToServer" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="Events" nillable="true" type="tns:Events" />
+  <xs:complexType name="ArrayOfDataEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DataEntry" nillable="true" type="tns:DataEntry" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDataEntry" nillable="true" type="tns:ArrayOfDataEntry" />
+  <xs:complexType name="DataEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Category" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Location" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tag" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DataEntry" nillable="true" type="tns:DataEntry" />
+  <xs:complexType name="ArrayOfUpdateFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UpdateFile" nillable="true" type="tns:UpdateFile" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUpdateFile" nillable="true" type="tns:ArrayOfUpdateFile" />
+  <xs:complexType name="UpdateFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FileContent" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="FileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SHA1Hash" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateFile" nillable="true" type="tns:UpdateFile" />
+</xs:schema>

@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DoX.BAI.ImpEx.Client.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Username" Provider="DoX.BAI.ImpEx.Client.BAIClientSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)">User</Value>
+    </Setting>
+    <Setting Name="Password" Provider="DoX.BAI.ImpEx.Client.BAIClientSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Pwd</Value>
+    </Setting>
+    <Setting Name="ProxyUsername" Provider="DoX.BAI.ImpEx.Client.BAIClientSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ProxyPassword" Provider="DoX.BAI.ImpEx.Client.BAIClientSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ProxyDomain" Provider="DoX.BAI.ImpEx.Client.BAIClientSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ServiceUrl" Provider="DoX.BAI.ImpEx.Client.BAIClientSettingsProvider" Type="(Web Service URL)" Scope="User">
+      <Value Profile="(Default)">http://localhost:7777/BAIService.svc</Value>
+    </Setting>
+    <Setting Name="LogImportedData" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ProxyAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DoX_BAI_ImpEx_Client_BAIService_BAIService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://ateggcl00333:7777/BAIService.svc</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

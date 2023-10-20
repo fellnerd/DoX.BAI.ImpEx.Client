@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BAIService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WsEndpoint_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="NetTcpEndpoint_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="GzipEndpoint_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <GZipEncoding:gzip xmlns:GZipEncoding="http://schemas.microsoft.com/ws/06/2004/mspolicy/netgzip1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:7777/BAIService/BAIService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:7777/BAIService/BAIService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:7777/BAIService/BAIService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" />
+      <xsd:import schemaLocation="http://localhost:7777/BAIService/BAIService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDataExchange_Subscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_Subscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_UnSubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnSubscribe" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_UnSubscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnSubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_GetConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetConfig" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_GetConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_SendData_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendData" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_SendData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_ReceiveData_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveData" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_ReceiveData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_ReceiveDataSelective_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveDataSelective" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_ReceiveDataSelective_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveDataSelectiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_DataReceived_InputMessage">
+    <wsdl:part name="parameters" element="tns:DataReceived" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_DataReceived_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DataReceivedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_DataReceivedSelective_InputMessage">
+    <wsdl:part name="parameters" element="tns:DataReceivedSelective" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_DataReceivedSelective_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DataReceivedSelectiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_ReceiveUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_ReceiveUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiveUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_UpdateReceived_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateReceived" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_UpdateReceived_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateReceivedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_SendLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendLog" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_SendLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_GetBAITime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBAITime" />
+  </wsdl:message>
+  <wsdl:message name="IDataExchange_GetBAITime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBAITimeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IDataExchange">
+    <wsdl:operation name="Subscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/Subscribe" message="tns:IDataExchange_Subscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/SubscribeResponse" message="tns:IDataExchange_Subscribe_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/UnSubscribe" message="tns:IDataExchange_UnSubscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/UnSubscribeResponse" message="tns:IDataExchange_UnSubscribe_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/GetConfig" message="tns:IDataExchange_GetConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/GetConfigResponse" message="tns:IDataExchange_GetConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/SendData" message="tns:IDataExchange_SendData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/SendDataResponse" message="tns:IDataExchange_SendData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/ReceiveData" message="tns:IDataExchange_ReceiveData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/ReceiveDataResponse" message="tns:IDataExchange_ReceiveData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveDataSelective">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/ReceiveDataSelective" message="tns:IDataExchange_ReceiveDataSelective_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/ReceiveDataSelectiveResponse" message="tns:IDataExchange_ReceiveDataSelective_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DataReceived">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/DataReceived" message="tns:IDataExchange_DataReceived_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/DataReceivedResponse" message="tns:IDataExchange_DataReceived_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DataReceivedSelective">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/DataReceivedSelective" message="tns:IDataExchange_DataReceivedSelective_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/DataReceivedSelectiveResponse" message="tns:IDataExchange_DataReceivedSelective_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/ReceiveUpdate" message="tns:IDataExchange_ReceiveUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/ReceiveUpdateResponse" message="tns:IDataExchange_ReceiveUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReceived">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/UpdateReceived" message="tns:IDataExchange_UpdateReceived_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/UpdateReceivedResponse" message="tns:IDataExchange_UpdateReceived_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/SendLog" message="tns:IDataExchange_SendLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/SendLogResponse" message="tns:IDataExchange_SendLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBAITime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDataExchange/GetBAITime" message="tns:IDataExchange_GetBAITime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IDataExchange/GetBAITimeResponse" message="tns:IDataExchange_GetBAITime_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HttpEndpoint" type="tns:IDataExchange">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Subscribe">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/Subscribe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribe">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/UnSubscribe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfig">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/GetConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendData">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/SendData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveData">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/ReceiveData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveDataSelective">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/ReceiveDataSelective" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceived">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/DataReceived" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceivedSelective">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/DataReceivedSelective" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveUpdate">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/ReceiveUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReceived">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/UpdateReceived" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendLog">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/SendLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBAITime">
+      <soap:operation soapAction="http://tempuri.org/IDataExchange/GetBAITime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WsEndpoint" type="tns:IDataExchange">
+    <wsp:PolicyReference URI="#WsEndpoint_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribe">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/UnSubscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfig">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/GetConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendData">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/SendData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveData">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveDataSelective">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveDataSelective" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceived">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/DataReceived" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceivedSelective">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/DataReceivedSelective" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReceived">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/UpdateReceived" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendLog">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/SendLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBAITime">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/GetBAITime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NetTcpEndpoint" type="tns:IDataExchange">
+    <wsp:PolicyReference URI="#NetTcpEndpoint_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribe">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/UnSubscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfig">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/GetConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendData">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/SendData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveData">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveDataSelective">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveDataSelective" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceived">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/DataReceived" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceivedSelective">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/DataReceivedSelective" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReceived">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/UpdateReceived" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendLog">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/SendLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBAITime">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/GetBAITime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GzipEndpoint" type="tns:IDataExchange">
+    <wsp:PolicyReference URI="#GzipEndpoint_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribe">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/UnSubscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfig">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/GetConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendData">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/SendData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveData">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveDataSelective">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveDataSelective" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceived">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/DataReceived" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DataReceivedSelective">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/DataReceivedSelective" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiveUpdate">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/ReceiveUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateReceived">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/UpdateReceived" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendLog">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/SendLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBAITime">
+      <soap12:operation soapAction="http://tempuri.org/IDataExchange/GetBAITime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BAIService">
+    <wsdl:port name="HttpEndpoint" binding="tns:HttpEndpoint">
+      <soap:address location="http://ateggcl00333:7777/BAIService.svc" />
+    </wsdl:port>
+    <wsdl:port name="WsEndpoint" binding="tns:WsEndpoint">
+      <soap12:address location="http://ateggcl00333:7779/BAIService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://ateggcl00333:7779/BAIService.svc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="NetTcpEndpoint" binding="tns:NetTcpEndpoint">
+      <soap12:address location="net.tcp://ateggcl00333:7778/BAIService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://ateggcl00333:7778/BAIService</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="GzipEndpoint" binding="tns:GzipEndpoint">
+      <soap12:address location="net.tcp://ateggcl00333:7776/BAIService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://ateggcl00333:7776/BAIService</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DoX.BAI.ImpEx.Client.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Clientname" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Fakt</Value>
+    </Setting>
+    <Setting Name="LogDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">%ProgramData%\Dorner Electronic\BAI Client</Value>
+    </Setting>
+    <Setting Name="MaxLogEntries" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

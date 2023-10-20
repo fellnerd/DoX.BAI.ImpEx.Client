@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:7777/BAIService/BAIService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" />
+  <xs:element name="Subscribe">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q1:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubscribeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="SubscribeResult" nillable="true" type="q2:BAIResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnSubscribe">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q3:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnSubscribeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="UnSubscribeResult" nillable="true" type="q4:BAIResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetConfig">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q5:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetConfigResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="GetConfigResult" nillable="true" type="q6:BAIResult" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="config" nillable="true" type="q7:Config" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q8:BAIUser" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="dataEntries" nillable="true" type="q9:ArrayOfDataEntry" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="SendDataResult" nillable="true" type="q10:BAIResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceiveData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q11:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceiveDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="ReceiveDataResult" nillable="true" type="q12:BAIResult" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="dataEntries" nillable="true" type="q13:ArrayOfDataEntry" />
+        <xs:element minOccurs="0" name="furtherDataAvailable" nillable="true" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceiveDataSelective">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q14:BAIUser" />
+        <xs:element minOccurs="0" name="category" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceiveDataSelectiveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="ReceiveDataSelectiveResult" nillable="true" type="q15:BAIResult" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="dataEntries" nillable="true" type="q16:ArrayOfDataEntry" />
+        <xs:element minOccurs="0" name="furtherDataAvailable" nillable="true" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DataReceived">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q17:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DataReceivedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="DataReceivedResult" nillable="true" type="q18:BAIResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DataReceivedSelective">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q19:BAIUser" />
+        <xs:element minOccurs="0" name="category" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DataReceivedSelectiveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="DataReceivedSelectiveResult" nillable="true" type="q20:BAIResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceiveUpdate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q21:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceiveUpdateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="ReceiveUpdateResult" nillable="true" type="q22:BAIResult" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="files" nillable="true" type="q23:ArrayOfUpdateFile" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateReceived">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q24:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateReceivedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="UpdateReceivedResult" nillable="true" type="q25:BAIResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendLog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q26:BAIUser" />
+        <xs:element minOccurs="0" name="log" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendLogResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="SendLogResult" nillable="true" type="q27:BAIResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBAITime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="user" nillable="true" type="q28:BAIUser" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBAITimeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/DoX.BAI.ImpEx.Shared" minOccurs="0" name="GetBAITimeResult" nillable="true" type="q29:BAIResult" />
+        <xs:element minOccurs="0" name="dt" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
