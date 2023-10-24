@@ -2,6 +2,7 @@
 using DoX.BAI.ImpEx.Shared;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -1209,6 +1212,100 @@ namespace DoX.BAI.ImpEx.Client
             return json;
         }
 
+        private void ImportDataEntriesInDatabase(string jsonInputData)
+        {
+            
+            var jsonData = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string, string>>>>(jsonInputData);
+
+            if (jsonData != null)
+            {
+                foreach (var keyValuePair in jsonData)
+                {
+                    Console.WriteLine($"Processing category: {keyValuePair.Key}");
+                    foreach (var item in keyValuePair.Value)
+                    {
+                        string endpoint = $"http://localhost:8056/items/{keyValuePair.Key}";
+                        PostDataToEndpoint(item, "E1aHku9hSXy1e7_Zi6F2QzweRVe1CgzR", endpoint);
+                    }
+                }
+            }
+        }
+
+
+
+        private void PostDataToEndpoint(Dictionary<string, string> data, string bearerToken, string endpointUrl)
+        {
+            if (string.IsNullOrEmpty(bearerToken)) throw new ArgumentNullException(nameof(bearerToken));
+            if (string.IsNullOrEmpty(endpointUrl)) throw new ArgumentNullException(nameof(endpointUrl));
+            if (data == null || data.Count == 0) throw new ArgumentException("Data dictionary is null or empty.", nameof(data));
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+                    var json = JsonConvert.SerializeObject(data);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    var response = client.PostAsync(endpointUrl, content).GetAwaiter().GetResult();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("Data successfully sent!");
+                    }
+                    else
+                    {
+                        var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                        throw new HttpRequestException($"Failed to send data. Status code: {response.StatusCode}. Response content: {responseContent}");
+                    }
+                }
+                catch (HttpRequestException httpEx)
+                {
+                    // Handle HTTP request specific exceptions here if needed
+                    Console.Error.WriteLine($"HTTP request error: {httpEx.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"An error occurred: {ex.Message}");
+                    throw;
+                }
+            }
+        }
+
+        JObject RemoveAtPrefixes(JObject obj)
+        {
+            var properties = obj.Properties().ToList();
+            foreach (var property in properties)
+            {
+                if (property.Name.StartsWith("@"))
+                {
+                    var newName = property.Name.Substring(1);
+                    var newProperty = new JProperty(newName, property.Value);
+                    obj.Remove(property.Name);
+                    obj.Add(newProperty);
+                }
+
+                if (property.Value.Type == JTokenType.Object)
+                {
+                    RemoveAtPrefixes((JObject)property.Value);
+                }
+                else if (property.Value.Type == JTokenType.Array)
+                {
+                    foreach (var item in property.Value)
+                    {
+                        if (item.Type == JTokenType.Object)
+                        {
+                            RemoveAtPrefixes((JObject)item);
+                        }
+                    }
+                }
+            }
+            return obj;
+        }
+
+
+
         private IEnumerable<string> ImportDataEntries(IEnumerable<DataEntry> data, bool argOverwriteFile = false)
         {
             var imported = new List<string>();
@@ -1231,8 +1328,11 @@ namespace DoX.BAI.ImpEx.Client
                     if (format == DataFormat.Xml)
                     {
                         var jsonData = ConvertXmlToJson(import.Data);
-                        dynamic dataConverted = JsonConvert.DeserializeObject(jsonData);
-                        Console.WriteLine(dataConverted);
+                        var jsonObject = JObject.Parse(jsonData);
+                        jsonObject = RemoveAtPrefixes(jsonObject);
+                        jsonData = jsonObject.ToString();
+                        ImportDataEntriesInDatabase(jsonData);
+                        //Console.WriteLine(jsonData);
                         //// Einfach die XML-Daten ausgeben
                         //Console.WriteLine(import.Data);
                     }
@@ -1265,6 +1365,9 @@ namespace DoX.BAI.ImpEx.Client
                     Console.WriteLine(String.Format("Fehler beim Import der Datenkategorie {0}:\r\n{1}", import.Category, ex));
                 }
             }
+
+            // Depug only
+            imported.Clear();
 
             return imported;
         }
