@@ -37,7 +37,7 @@ Passwort: sc1zB070?
 Link MySQL:
 https://plesk.powered.ws/phpMyAdmin/
 
-## Directus Data Integration
+## Directus Data Integration (Integration Client)
 
 ### Dokumentation für Directus mit Docker Compose
 
@@ -94,3 +94,69 @@ services:
    ```sh
    docker-compose up -d
    ```
+
+## DornerLink_Client Konfiguration
+
+(+) IntegrationClientUrl\
+(+) IntegrationClientToken
+
+### IntegrationClientUrl
+
+Die Serveradresse des Integration Clients z.B: `http://localhost:8056/`
+
+### IntegrationClientToken
+
+Token des Service Users z.B: `E1aHku9hSXy1e7_Zi6F2QzweRVe1CgzR`
+
+![Alt text](image-1.png)
+
+## Erstellen einer neuen Tabelle und Hinzufügen von Feldern in Directus
+
+Directus ist ein Headless CMS, das eine intuitive Weboberfläche für die Verwaltung von Datenbankinhalten bietet. In dieser kurzen Anleitung zeigen wir Ihnen, wie Sie eine neue Tabelle erstellen und Felder zu dieser Tabelle hinzufügen können.
+
+### Voraussetzungen
+
+- Eine laufende Instanz von Directus.
+- Zugriff auf das Directus Admin-Panel.
+- Administratorrechte oder ausreichende Berechtigungen zum Erstellen von Tabellen und Feldern.
+
+### Schritt 1: Anmelden im Directus Admin-Panel
+
+1. Öffnen Sie Ihren Webbrowser und navigieren Sie zur URL Ihrer Directus-Instanz.
+2. Melden Sie sich mit Ihrem Benutzernamen und Passwort an.
+
+### Schritt 2: Navigieren zum Datenmodell-Bereich
+
+1. Klicken Sie im linken Seitenmenü auf das Symbol für "Datenmodell".
+2. Sie gelangen nun in den Bereich, in dem Sie die Datenstrukturen Ihrer Datenbank verwalten können.
+
+### Schritt 3: Erstellen einer neuen Tabelle
+
+1. Klicken Sie auf den Button „+ Tabelle erstellen“.
+2. Geben Sie den Namen Ihrer neuen Tabelle ein.
+3. Optional können Sie auch eine Beschreibung für die Tabelle hinzufügen.
+4. Klicken Sie auf „Erstellen“, um die Tabelle zu erstellen.
+
+### Schritt 4: Hinzufügen von Feldern zur Tabelle
+
+1. Nachdem die Tabelle erstellt wurde, werden Sie zur Strukturansicht dieser Tabelle weitergeleitet.
+2. Klicken Sie hier auf „+ Feld hinzufügen“, um ein neues Feld zu erstellen.
+3. Wählen Sie den Feldtyp aus, den Sie hinzufügen möchten (z.B. Text, Zahl, Datum usw.).
+4. Geben Sie einen Namen für das Feld ein.
+5. Konfigurieren Sie die weiteren Einstellungen des Feldes nach Ihren Bedürfnissen.
+6. Klicken Sie auf „Hinzufügen“, um das Feld zur Tabelle hinzuzufügen.
+
+### Schritt 5: Überprüfen und Speichern
+
+1. Überprüfen Sie, ob alle Felder korrekt hinzugefügt wurden und ob die Einstellungen korrekt sind.
+2. Klicken Sie auf „Speichern“, um die Änderungen zu übernehmen.
+
+### Fazit
+
+Nachdem Sie diese Schritte durchgeführt haben, sollten Sie nun eine neue Tabelle mit den gewünschten Feldern in Ihrem Directus CMS haben. Sie können nun Inhalte zu dieser Tabelle hinzufügen und sie in Ihren Projekten verwenden. Directus bietet eine Vielzahl von Feldtypen und Konfigurationsoptionen, sodass Sie Ihre Datenmodelle genau nach Ihren Bedürfnissen anpassen können.
+
+### Hinweis
+
+```
+Achten Sie darauf das die Tabelle den selben Namen trägt wie die Kategorie welche vom BAI Service bereitgestellt wird.
+```

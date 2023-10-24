@@ -28,6 +28,8 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 
+
+
 namespace DoX.BAI.ImpEx.Client
 {
     public sealed class BAIClient : IClientController
@@ -38,6 +40,7 @@ namespace DoX.BAI.ImpEx.Client
         private const string METADATA_KEY_IMPERSONATE_DOMAIN = "ImpersonateDomain";
         private const string METADATA_KEY_IMPERSONATE_PASSWORD = "ImpersonatePassword";
         private const string METADATA_KEY_OVERWRITE_EXPORT_FILE = "OverwriteExportFile";
+        private const int BATCH_SIZE = 7;
 
         // obtains user token
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -1214,7 +1217,6 @@ namespace DoX.BAI.ImpEx.Client
 
         private void ImportDataEntriesInDatabase(string jsonInputData)
         {
-            
             var jsonData = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string, string>>>>(jsonInputData);
 
             if (jsonData != null)
@@ -1222,10 +1224,37 @@ namespace DoX.BAI.ImpEx.Client
                 foreach (var keyValuePair in jsonData)
                 {
                     Console.WriteLine($"Processing category: {keyValuePair.Key}");
+
+                    string clientUrl = _ClientSideConfig.IntegrationClientUrl;
+                    if (!String.IsNullOrEmpty(clientUrl))
+                    {
+                        if (!clientUrl.EndsWith("/"))
+                        {
+                            clientUrl += "/";
+                        }
+                    }
+
+                    string endpoint = $"{clientUrl}items/{keyValuePair.Key}";
+
+                    int itemCount = 0;
+                    List<Dictionary<string, string>> batch = new List<Dictionary<string, string>>(BATCH_SIZE);
+
                     foreach (var item in keyValuePair.Value)
                     {
-                        string endpoint = $"http://localhost:8056/items/{keyValuePair.Key}";
-                        PostDataToEndpoint(item, "E1aHku9hSXy1e7_Zi6F2QzweRVe1CgzR", endpoint);
+                        batch.Add(item);
+                        itemCount++;
+
+                        if (itemCount % BATCH_SIZE == 0)
+                        {
+                            PostDataToEndpoint(batch, _ClientSideConfig.IntegrationClientToken, endpoint, keyValuePair.Key);
+                            batch.Clear();
+                        }
+                    }
+
+                    // Send any remaining items
+                    if (batch.Count > 0)
+                    {
+                        PostDataToEndpoint(batch, _ClientSideConfig.IntegrationClientToken, endpoint, keyValuePair.Key);
                     }
                 }
             }
@@ -1233,11 +1262,11 @@ namespace DoX.BAI.ImpEx.Client
 
 
 
-        private void PostDataToEndpoint(Dictionary<string, string> data, string bearerToken, string endpointUrl)
+        private void PostDataToEndpoint(List<Dictionary<string, string>> data, string bearerToken, string endpointUrl, string category)
         {
             if (string.IsNullOrEmpty(bearerToken)) throw new ArgumentNullException(nameof(bearerToken));
             if (string.IsNullOrEmpty(endpointUrl)) throw new ArgumentNullException(nameof(endpointUrl));
-            if (data == null || data.Count == 0) throw new ArgumentException("Data dictionary is null or empty.", nameof(data));
+            if (data == null || data.Count == 0) throw new ArgumentException("Data list is null or empty.", nameof(data));
 
             using (var client = new HttpClient())
             {
@@ -1251,7 +1280,7 @@ namespace DoX.BAI.ImpEx.Client
 
                     if (response.IsSuccessStatusCode)
                     {
-                        Console.WriteLine("Data successfully sent!");
+                        WriteLogEntry(MethodBase.GetCurrentMethod(), "Daten erfolgreich in Datenbank geschriben:\r\n" + category, EventLogEntryType.Information);
                     }
                     else
                     {
@@ -1261,13 +1290,14 @@ namespace DoX.BAI.ImpEx.Client
                 }
                 catch (HttpRequestException httpEx)
                 {
-                    // Handle HTTP request specific exceptions here if needed
                     Console.Error.WriteLine($"HTTP request error: {httpEx.Message}");
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), "Fehler beim Aufruf des Integration Clients:\r\n" + httpEx.ToString(), EventLogEntryType.Error);
                     throw;
                 }
                 catch (Exception ex)
                 {
                     Console.Error.WriteLine($"An error occurred: {ex.Message}");
+
                     throw;
                 }
             }
@@ -1331,10 +1361,10 @@ namespace DoX.BAI.ImpEx.Client
                         var jsonObject = JObject.Parse(jsonData);
                         jsonObject = RemoveAtPrefixes(jsonObject);
                         jsonData = jsonObject.ToString();
+                        //Console.WriteLine(_ClientSideConfig.IntegrationClientUrl);
                         ImportDataEntriesInDatabase(jsonData);
-                        //Console.WriteLine(jsonData);
-                        //// Einfach die XML-Daten ausgeben
-                        //Console.WriteLine(import.Data);
+                        Thread.Sleep(2000);
+                        
                     }
                     else if (format == DataFormat.RawData)
                     {
@@ -1362,7 +1392,9 @@ namespace DoX.BAI.ImpEx.Client
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(String.Format("Fehler beim Import der Datenkategorie {0}:\r\n{1}", import.Category, ex));
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), "Fehler beim Import der Datenkategorie:\r\n" + ex.ToString(), EventLogEntryType.Error);
+                    //Console.WriteLine(String.Format("Fehler beim Import der Datenkategorie {0}:\r\n{1}", import.Category, ex));
+                    Thread.Sleep(2000);
                 }
             }
 

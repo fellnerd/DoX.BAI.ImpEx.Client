@@ -23,10 +23,13 @@ namespace DoX.BAI.ImpEx.Client
             textBoxServiceUsername.DataBindings.Add("Text", Config, "Username", false, DataSourceUpdateMode.OnPropertyChanged);
             textBoxServicePassword.DataBindings.Add("Text", Config, "Password", false, DataSourceUpdateMode.OnPropertyChanged);
             textBoxServiceUrl.DataBindings.Add("Text", Config, "ServiceUrl", false, DataSourceUpdateMode.OnPropertyChanged);
+            textBoxIntegrationClientUrl.DataBindings.Add("Text", Config, "IntegrationClientUrl", false, DataSourceUpdateMode.OnPropertyChanged);
+            textBoxIntegrationClientToken.DataBindings.Add("Text", Config, "IntegrationClientToken", false, DataSourceUpdateMode.OnPropertyChanged);
             textBoxAddressPort.DataBindings.Add("Text", Config, "ProxyAddress", false, DataSourceUpdateMode.OnPropertyChanged);
             textBoxProxyUsername.DataBindings.Add("Text", Config, "ProxyUsername", false, DataSourceUpdateMode.OnPropertyChanged);
             textBoxProxyPassword.DataBindings.Add("Text", Config, "ProxyPassword", false, DataSourceUpdateMode.OnPropertyChanged);
             textBoxProxyDomain.DataBindings.Add("Text", Config, "ProxyDomain", false, DataSourceUpdateMode.OnPropertyChanged);
+            
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
