@@ -49,6 +49,10 @@
             this.labelAddressPort = new System.Windows.Forms.Label();
             this.textBoxProxyPassword = new System.Windows.Forms.TextBox();
             this.groupBoxWebservice = new System.Windows.Forms.GroupBox();
+            this.textBoxIntegrationClientUrl = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxIntegrationClientToken = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.groupBoxProxy.SuspendLayout();
             this.groupBoxWebservice.SuspendLayout();
@@ -76,7 +80,7 @@
             this.labelServiceUsername.AutoSize = true;
             this.labelServiceUsername.Location = new System.Drawing.Point(19, 26);
             this.labelServiceUsername.Name = "labelServiceUsername";
-            this.labelServiceUsername.Size = new System.Drawing.Size(66, 16);
+            this.labelServiceUsername.Size = new System.Drawing.Size(65, 16);
             this.labelServiceUsername.TabIndex = 26;
             this.labelServiceUsername.Text = "Username";
             // 
@@ -85,7 +89,7 @@
             this.labelServicePassword.AutoSize = true;
             this.labelServicePassword.Location = new System.Drawing.Point(19, 58);
             this.labelServicePassword.Name = "labelServicePassword";
-            this.labelServicePassword.Size = new System.Drawing.Size(63, 16);
+            this.labelServicePassword.Size = new System.Drawing.Size(62, 16);
             this.labelServicePassword.TabIndex = 27;
             this.labelServicePassword.Text = "Password";
             // 
@@ -154,7 +158,7 @@
             this.labelServiceUrl.AutoSize = true;
             this.labelServiceUrl.Location = new System.Drawing.Point(19, 89);
             this.labelServiceUrl.Name = "labelServiceUrl";
-            this.labelServiceUrl.Size = new System.Drawing.Size(30, 16);
+            this.labelServiceUrl.Size = new System.Drawing.Size(29, 16);
             this.labelServiceUrl.TabIndex = 34;
             this.labelServiceUrl.Text = "URL";
             // 
@@ -169,7 +173,7 @@
             this.groupBoxProxy.Controls.Add(this.labelAddressPort);
             this.groupBoxProxy.Controls.Add(this.textBoxProxyPassword);
             this.groupBoxProxy.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBoxProxy.Location = new System.Drawing.Point(0, 166);
+            this.groupBoxProxy.Location = new System.Drawing.Point(0, 210);
             this.groupBoxProxy.Name = "groupBoxProxy";
             this.groupBoxProxy.Size = new System.Drawing.Size(368, 155);
             this.groupBoxProxy.TabIndex = 2;
@@ -189,7 +193,7 @@
             this.labelProxyDomain.AutoSize = true;
             this.labelProxyDomain.Location = new System.Drawing.Point(16, 120);
             this.labelProxyDomain.Name = "labelProxyDomain";
-            this.labelProxyDomain.Size = new System.Drawing.Size(51, 16);
+            this.labelProxyDomain.Size = new System.Drawing.Size(50, 16);
             this.labelProxyDomain.TabIndex = 42;
             this.labelProxyDomain.Text = "Domain";
             // 
@@ -206,7 +210,7 @@
             this.labelProxyPassword.AutoSize = true;
             this.labelProxyPassword.Location = new System.Drawing.Point(16, 89);
             this.labelProxyPassword.Name = "labelProxyPassword";
-            this.labelProxyPassword.Size = new System.Drawing.Size(63, 16);
+            this.labelProxyPassword.Size = new System.Drawing.Size(62, 16);
             this.labelProxyPassword.TabIndex = 38;
             this.labelProxyPassword.Text = "Password";
             // 
@@ -223,7 +227,7 @@
             this.labelProxyUsername.AutoSize = true;
             this.labelProxyUsername.Location = new System.Drawing.Point(16, 57);
             this.labelProxyUsername.Name = "labelProxyUsername";
-            this.labelProxyUsername.Size = new System.Drawing.Size(66, 16);
+            this.labelProxyUsername.Size = new System.Drawing.Size(65, 16);
             this.labelProxyUsername.TabIndex = 37;
             this.labelProxyUsername.Text = "Username";
             // 
@@ -232,7 +236,7 @@
             this.labelAddressPort.AutoSize = true;
             this.labelAddressPort.Location = new System.Drawing.Point(16, 26);
             this.labelAddressPort.Name = "labelAddressPort";
-            this.labelAddressPort.Size = new System.Drawing.Size(82, 16);
+            this.labelAddressPort.Size = new System.Drawing.Size(81, 16);
             this.labelAddressPort.TabIndex = 40;
             this.labelAddressPort.Text = "Address:Port";
             // 
@@ -247,6 +251,10 @@
             // 
             // groupBoxWebservice
             // 
+            this.groupBoxWebservice.Controls.Add(this.label2);
+            this.groupBoxWebservice.Controls.Add(this.textBoxIntegrationClientToken);
+            this.groupBoxWebservice.Controls.Add(this.textBoxIntegrationClientUrl);
+            this.groupBoxWebservice.Controls.Add(this.label1);
             this.groupBoxWebservice.Controls.Add(this.textBoxServiceUsername);
             this.groupBoxWebservice.Controls.Add(this.labelServicePassword);
             this.groupBoxWebservice.Controls.Add(this.textBoxServiceUrl);
@@ -256,10 +264,44 @@
             this.groupBoxWebservice.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBoxWebservice.Location = new System.Drawing.Point(0, 25);
             this.groupBoxWebservice.Name = "groupBoxWebservice";
-            this.groupBoxWebservice.Size = new System.Drawing.Size(368, 128);
+            this.groupBoxWebservice.Size = new System.Drawing.Size(368, 179);
             this.groupBoxWebservice.TabIndex = 1;
             this.groupBoxWebservice.TabStop = false;
             this.groupBoxWebservice.Text = "Webservice";
+            // 
+            // textBoxIntegrationClientUrl
+            // 
+            this.textBoxIntegrationClientUrl.Location = new System.Drawing.Point(125, 117);
+            this.textBoxIntegrationClientUrl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxIntegrationClientUrl.Name = "textBoxIntegrationClientUrl";
+            this.textBoxIntegrationClientUrl.Size = new System.Drawing.Size(231, 23);
+            this.textBoxIntegrationClientUrl.TabIndex = 35;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 120);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 16);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "DB Client URL";
+            // 
+            // textBoxIntegrationClientToken
+            // 
+            this.textBoxIntegrationClientToken.Location = new System.Drawing.Point(125, 148);
+            this.textBoxIntegrationClientToken.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxIntegrationClientToken.Name = "textBoxIntegrationClientToken";
+            this.textBoxIntegrationClientToken.Size = new System.Drawing.Size(231, 23);
+            this.textBoxIntegrationClientToken.TabIndex = 37;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(19, 151);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 16);
+            this.label2.TabIndex = 38;
+            this.label2.Text = "Token";
             // 
             // LoginForm
             // 
@@ -267,7 +309,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(368, 321);
+            this.ClientSize = new System.Drawing.Size(368, 365);
             this.Controls.Add(this.groupBoxWebservice);
             this.Controls.Add(this.groupBoxProxy);
             this.Controls.Add(this.buttonCancel);
@@ -313,6 +355,9 @@
         private System.Windows.Forms.TextBox textBoxAddressPort;
         private System.Windows.Forms.TextBox textBoxProxyPassword;
         private System.Windows.Forms.TextBox textBoxProxyDomain;
-
+        private System.Windows.Forms.TextBox textBoxIntegrationClientUrl;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxIntegrationClientToken;
     }
 }
