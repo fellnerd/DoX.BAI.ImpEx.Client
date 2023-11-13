@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
@@ -28,6 +29,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Services.Description;
 using System.Xml;
 using System.Xml.Serialization;
@@ -54,6 +56,8 @@ namespace DoX.BAI.ImpEx.Client
         // closes open handes returned by LogonUser
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public extern static bool CloseHandle(IntPtr handle);
+
+        private readonly HttpClient _httpClient;
 
         const string SampleDirectoryPath = @"C:\Users\User\source\ppmc\XMLProjekt\DOI_DornerInterface_2022.02.16\InterfaceExamples";
 
@@ -95,6 +99,7 @@ namespace DoX.BAI.ImpEx.Client
                 msg += ":\r\n";
                 WriteLogEntry(MethodBase.GetCurrentMethod(), msg + e.ExceptionObject, EventLogEntryType.Error);
             };
+            this._httpClient = new HttpClient();
         }
 
         static BAIClient()
@@ -1147,6 +1152,7 @@ namespace DoX.BAI.ImpEx.Client
                 {
                     //service.Url
                     WriteLogEntry(MethodBase.GetCurrentMethod(), "Hole Daten vom Server", EventLogEntryType.Information);
+                    Console.WriteLine("Hole Daten vom Server");
                     DataEntry[] t;
 
                     var sw2 = new Stopwatch();
@@ -1224,31 +1230,31 @@ namespace DoX.BAI.ImpEx.Client
             return json;
         }
 
-        private async Task ImportDataEntriesInDatabase(Dictionary<string, List<Dictionary<string, string>>> jsonData)
-        {
+        //private async Task ImportDataEntriesInDatabase(Dictionary<string, List<Dictionary<string, string>>> jsonData)
+        //{
             
 
-            if (jsonData != null)
-            {
-                foreach (var keyValuePair in jsonData)
-                {
-                    Console.WriteLine($"Processing category: {keyValuePair.Key}");
-                    var clientUrl = _ClientSideConfig?.IntegrationClientUrl?.TrimEnd('/') + "/" ?? "defaultUrl/";
-                    string endpoint = $"{clientUrl}items/{keyValuePair.Key}";
+        //    if (jsonData != null)
+        //    {
+        //        foreach (var keyValuePair in jsonData)
+        //        {
+        //            Console.WriteLine($"Processing category: {keyValuePair.Key}");
+        //            var clientUrl = _ClientSideConfig?.IntegrationClientUrl?.TrimEnd('/') + "/" ?? "defaultUrl/";
+        //            string endpoint = $"{clientUrl}items/{keyValuePair.Key}";
 
-                    if (keyValuePair.Key != "DOI_MaterialHolderInfo")
-                    {
-                        Console.WriteLine($"Processing other category: {keyValuePair.Key}");
-                    }
+        //            if (keyValuePair.Key != "DOI_MaterialHolderInfo")
+        //            {
+        //                Console.WriteLine($"Processing other category: {keyValuePair.Key}");
+        //            }
 
-                    for (int i = 0; i < keyValuePair.Value.Count; i += BATCH_SIZE)
-                    {
-                        var batch = keyValuePair.Value.Skip(i).Take(BATCH_SIZE).ToList();
-                        await ImportDataEntriesInMongoDB(batch, keyValuePair.Key);
-                    }
-                }
-            }
-        }
+        //            for (int i = 0; i < keyValuePair.Value.Count; i += BATCH_SIZE)
+        //            {
+        //                var batch = keyValuePair.Value.Skip(i).Take(BATCH_SIZE).ToList();
+        //                await ImportDataEntriesInMongoDB(batch, keyValuePair.Key);
+        //            }
+        //        }
+        //    }
+        //}
 
 
         private void PostDataToEndpoint(List<Dictionary<string, string>> data, string bearerToken, string endpointUrl, string category)
@@ -1323,81 +1329,126 @@ namespace DoX.BAI.ImpEx.Client
             return obj;
         }
 
-        static async Task ImportDataEntriesInMongoDB(List<Dictionary<string, string>> data, string category)
+        //static async Task ImportDataEntriesInMongoDB(List<Dictionary<string, string>> data, string category)
+        //{
+        //    try
+        //    {
+        //        var collection = _database.GetCollection<BsonDocument>(category);
+        //        var documents = data.Select(item => new BsonDocument(item)).ToList();
+        //        await collection.InsertManyAsync(documents);
+        //        Console.WriteLine("Data has been successfully written to MongoDB.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("An error occurred: " + ex.Message);
+        //    }
+        //}
+
+        //static string ConvertObjectsToJsonArrays(string jsonString)
+        //{
+        //    try
+        //    {
+        //        JObject jsonObj = JObject.Parse(jsonString);
+
+        //        var propertiesToChange = new List<JProperty>();
+        //        foreach (var property in jsonObj.Properties())
+        //        {
+        //            if (property.Value is JObject)
+        //            {
+        //                propertiesToChange.Add(property);
+        //            }
+        //        }
+
+        //        foreach (var property in propertiesToChange)
+        //        {
+        //            JArray newArray = new JArray();
+        //            newArray.Add(property.Value);
+        //            jsonObj[property.Name] = newArray;
+        //        }
+
+        //        return jsonObj.ToString();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Es ist ein Fehler aufgetreten: " + e.Message);
+        //        return null;
+        //    }
+        //}
+
+        //static Dictionary<string, List<Dictionary<string, string>>> DeserializeJson(string json)
+        //{
+        //    JObject jsonData = JObject.Parse(json);
+        //    var result = new Dictionary<string, List<Dictionary<string, string>>>();
+
+        //    foreach (var property in jsonData.Properties())
+        //    {
+        //        if (property.Value is JArray array)
+        //        {
+        //            var list = new List<Dictionary<string, string>>();
+        //            foreach (var item in array.Children<JObject>())
+        //            {
+        //                var dict = item.Properties().ToDictionary(prop => prop.Name, prop => prop.Value.ToString());
+        //                list.Add(dict);
+        //            }
+        //            result.Add(property.Name, list);
+        //        }
+        //        else if (property.Value is JObject obj)
+        //        {
+        //            // Für den Fall, dass der Wert ein einzelnes Objekt ist, anstatt eines Arrays von Objekten
+        //            var list = new List<Dictionary<string, string>>
+        //        {
+        //            obj.Properties().ToDictionary(prop => prop.Name, prop => prop.Value.ToString())
+        //        };
+        //            result.Add(property.Name, list);
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+        public async Task<HttpResponseMessage> PostJsonAsync(string endpoint, string jsonPayload, string category = "")
         {
+            if (string.IsNullOrWhiteSpace(endpoint))
+            {
+                throw new ArgumentException("Endpoint cannot be null or whitespace.", nameof(endpoint));
+            }
+
+            if (string.IsNullOrWhiteSpace(jsonPayload))
+            {
+                throw new ArgumentException("JSON payload cannot be null or whitespace.", nameof(jsonPayload));
+            }
+
             try
             {
-                var collection = _database.GetCollection<BsonDocument>(category);
-                var documents = data.Select(item => new BsonDocument(item)).ToList();
-                await collection.InsertManyAsync(documents);
-                Console.WriteLine("Data has been successfully written to MongoDB.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred: " + ex.Message);
-            }
-        }
+                HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync(endpoint, content);
 
-        static string ConvertObjectsToJsonArrays(string jsonString)
-        {
-            try
-            {
-                JObject jsonObj = JObject.Parse(jsonString);
-
-                var propertiesToChange = new List<JProperty>();
-                foreach (var property in jsonObj.Properties())
+                if (!response.IsSuccessStatusCode)
                 {
-                    if (property.Value is JObject)
-                    {
-                        propertiesToChange.Add(property);
-                    }
+                    // Log the error
+                    string errorMessage = $"Error: {response.StatusCode} - {response.ReasonPhrase}";
+                    Console.Error.WriteLine(errorMessage);
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), errorMessage, EventLogEntryType.Error);
+
+                    // Throw an exception
+                    throw new HttpRequestException(errorMessage);
                 }
 
-                foreach (var property in propertiesToChange)
-                {
-                    JArray newArray = new JArray();
-                    newArray.Add(property.Value);
-                    jsonObj[property.Name] = newArray;
-                }
+                Console.WriteLine($"Daten wurden erfolgreich übertragen: {category}");
+                WriteLogEntry(MethodBase.GetCurrentMethod(), $"Daten wurden erfolgreich übertragen: {category}", EventLogEntryType.Information);
 
-                return jsonObj.ToString();
+                return response;
+            }
+            catch (HttpRequestException e)
+            {
+                Console.Error.WriteLine($"Request error: {e.Message}");
+                throw; // Re-throwing the exception preserves the original stack trace.
             }
             catch (Exception e)
             {
-                Console.WriteLine("Es ist ein Fehler aufgetreten: " + e.Message);
-                return null;
+                Console.Error.WriteLine($"Unexpected error: {e.Message}");
+                throw; // Re-throwing the exception preserves the original stack trace.
             }
-        }
-
-        static Dictionary<string, List<Dictionary<string, string>>> DeserializeJson(string json)
-        {
-            JObject jsonData = JObject.Parse(json);
-            var result = new Dictionary<string, List<Dictionary<string, string>>>();
-
-            foreach (var property in jsonData.Properties())
-            {
-                if (property.Value is JArray array)
-                {
-                    var list = new List<Dictionary<string, string>>();
-                    foreach (var item in array.Children<JObject>())
-                    {
-                        var dict = item.Properties().ToDictionary(prop => prop.Name, prop => prop.Value.ToString());
-                        list.Add(dict);
-                    }
-                    result.Add(property.Name, list);
-                }
-                else if (property.Value is JObject obj)
-                {
-                    // Für den Fall, dass der Wert ein einzelnes Objekt ist, anstatt eines Arrays von Objekten
-                    var list = new List<Dictionary<string, string>>
-                {
-                    obj.Properties().ToDictionary(prop => prop.Name, prop => prop.Value.ToString())
-                };
-                    result.Add(property.Name, list);
-                }
-            }
-
-            return result;
         }
 
         private IEnumerable<string> ImportDataEntries(IEnumerable<DataEntry> data, bool argOverwriteFile = false)
@@ -1407,24 +1458,34 @@ namespace DoX.BAI.ImpEx.Client
 
             string[] files = Directory.GetFiles(SampleDirectoryPath);
 
-            foreach (string file in files)
+            try
             {
-                string content = File.ReadAllText(file);
-                var jsonData = ConvertXmlToJson(content);
-                var jsonObject = JObject.Parse(jsonData);
-                jsonObject = RemoveAtPrefixes(jsonObject);
-                jsonData = jsonObject.ToString();
-                jsonData = ConvertObjectsToJsonArrays(jsonData);
-                var result = DeserializeJson(jsonData);
-                //Console.WriteLine(_ClientSideConfig.IntegrationClientUrl);
-                ImportDataEntriesInDatabase(result).Wait();
+                foreach (string file in files)
+                {
+                    string content = File.ReadAllText(file);
+                    var jsonData = ConvertXmlToJson(content);
+                    var jsonObject = JObject.Parse(jsonData);
+                    jsonObject = RemoveAtPrefixes(jsonObject);
+                    jsonData = jsonObject.ToString();
+
+                    PostJsonAsync(_ClientSideConfig.IntegrationClientUrl, jsonData).Wait();
+
+
+                    Thread.Sleep(2000);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message);
 
                 Thread.Sleep(2000);
             }
 
 
 
-                foreach (var import in data)
+
+
+            foreach (var import in data)
             {
                 try
                 {
