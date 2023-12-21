@@ -1327,11 +1327,11 @@ namespace DoX.BAI.ImpEx.Client
                 try
                 {
                     Console.WriteLine("Datenkategorie: " + import.Category);
-                    if(import.Category == "BAI_Err")
-                    {
-                        imported.Add(import.Category);
-                        //return imported;
-                    }
+                    //if(import.Category == "BAI_Err")
+                    //{
+                    //    imported.Add(import.Category);
+                    //    return imported;
+                    //}
                     var cfgEntry = _ServerSideConfig.ConfigEntries.FirstOrDefault(c => string.Equals(c.Ident.Category, import.Category, StringComparison.InvariantCultureIgnoreCase) && string.Equals(c.Ident.Location, import.Location, StringComparison.InvariantCultureIgnoreCase));
 
                     if (cfgEntry == null || !cfgEntry.Enabled)
@@ -1350,7 +1350,7 @@ namespace DoX.BAI.ImpEx.Client
                         jsonData = jsonObject.ToString();
                         PostJsonAsync(_ClientSideConfig.IntegrationClientUrl, jsonData).Wait();
 
-                        Thread.Sleep(2000);
+                        //Thread.Sleep(2000);
                         
                     }
                     else if (format == DataFormat.RawData)
