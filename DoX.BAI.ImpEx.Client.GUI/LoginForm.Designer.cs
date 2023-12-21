@@ -49,10 +49,10 @@
             this.labelAddressPort = new System.Windows.Forms.Label();
             this.textBoxProxyPassword = new System.Windows.Forms.TextBox();
             this.groupBoxWebservice = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxIntegrationClientToken = new System.Windows.Forms.TextBox();
             this.textBoxIntegrationClientUrl = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBoxIntegrationClientToken = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.groupBoxProxy.SuspendLayout();
             this.groupBoxWebservice.SuspendLayout();
@@ -95,12 +95,13 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonCancel,
             this.toolStripButtonOK});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(368, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(368, 39);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -110,7 +111,7 @@
             this.toolStripButtonCancel.Image = global::DoX.BAI.ImpEx.Client.Properties.Resources.cancel;
             this.toolStripButtonCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCancel.Name = "toolStripButtonCancel";
-            this.toolStripButtonCancel.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonCancel.Size = new System.Drawing.Size(36, 36);
             this.toolStripButtonCancel.ToolTipText = "Cancel";
             this.toolStripButtonCancel.Click += new System.EventHandler(this.toolStripButtonCancel_Click);
             // 
@@ -120,7 +121,7 @@
             this.toolStripButtonOK.Image = global::DoX.BAI.ImpEx.Client.Properties.Resources.accept;
             this.toolStripButtonOK.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonOK.Name = "toolStripButtonOK";
-            this.toolStripButtonOK.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonOK.Size = new System.Drawing.Size(36, 36);
             this.toolStripButtonOK.ToolTipText = "OK";
             this.toolStripButtonOK.Click += new System.EventHandler(this.toolStripButtonOK_Click);
             // 
@@ -262,12 +263,29 @@
             this.groupBoxWebservice.Controls.Add(this.labelServiceUrl);
             this.groupBoxWebservice.Controls.Add(this.textBoxServicePassword);
             this.groupBoxWebservice.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBoxWebservice.Location = new System.Drawing.Point(0, 25);
+            this.groupBoxWebservice.Location = new System.Drawing.Point(0, 39);
             this.groupBoxWebservice.Name = "groupBoxWebservice";
             this.groupBoxWebservice.Size = new System.Drawing.Size(368, 179);
             this.groupBoxWebservice.TabIndex = 1;
             this.groupBoxWebservice.TabStop = false;
             this.groupBoxWebservice.Text = "Webservice";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(19, 151);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 16);
+            this.label2.TabIndex = 38;
+            this.label2.Text = "Token";
+            // 
+            // textBoxIntegrationClientToken
+            // 
+            this.textBoxIntegrationClientToken.Location = new System.Drawing.Point(125, 148);
+            this.textBoxIntegrationClientToken.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxIntegrationClientToken.Name = "textBoxIntegrationClientToken";
+            this.textBoxIntegrationClientToken.Size = new System.Drawing.Size(231, 23);
+            this.textBoxIntegrationClientToken.TabIndex = 37;
             // 
             // textBoxIntegrationClientUrl
             // 
@@ -282,26 +300,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(19, 120);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 16);
+            this.label1.Size = new System.Drawing.Size(92, 16);
             this.label1.TabIndex = 36;
-            this.label1.Text = "DB Client URL";
-            // 
-            // textBoxIntegrationClientToken
-            // 
-            this.textBoxIntegrationClientToken.Location = new System.Drawing.Point(125, 148);
-            this.textBoxIntegrationClientToken.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxIntegrationClientToken.Name = "textBoxIntegrationClientToken";
-            this.textBoxIntegrationClientToken.Size = new System.Drawing.Size(231, 23);
-            this.textBoxIntegrationClientToken.TabIndex = 37;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 151);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 16);
-            this.label2.TabIndex = 38;
-            this.label2.Text = "Token";
+            this.label1.Text = "Client Endpoint";
             // 
             // LoginForm
             // 
