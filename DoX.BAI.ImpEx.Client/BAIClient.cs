@@ -1386,7 +1386,7 @@ namespace DoX.BAI.ImpEx.Client
             }
 
             // Depug only
-            //imported.Clear();
+            imported.Clear();
 
             return imported;
         }
