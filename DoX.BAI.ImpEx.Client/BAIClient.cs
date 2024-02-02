@@ -1,7 +1,6 @@
 ﻿using DoX.BAI.ImpEx.Client.BAIService;
 using DoX.BAI.ImpEx.Shared;
 using Microsoft.Win32;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,23 +13,17 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Security;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Services.Description;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -59,13 +52,10 @@ namespace DoX.BAI.ImpEx.Client
 
         private readonly HttpClient _httpClient;
 
-        const string SampleDirectoryPath = @"C:\Users\User\source\ppmc\XMLProjekt\DOI_DornerInterface_2022.02.16\InterfaceExamples";
 
-        private static readonly Regex _FileSearchPattern = new Regex(@"^([\w.-]+[*]*\.\w{2,})|([*]{1}\.\w{2,})");
         private const String UPDATE_PROC_NAME = "DoX.BAI.ImpEx.Client.Updater.exe";
 
-        private static MongoClient _mongoClient = new MongoClient("mongodb+srv://admin:I36oVbYYcYvl5ROs@ppmcbai.7ynygj2.mongodb.net/?retryWrites=true&w=majority");
-        private static IMongoDatabase _database = _mongoClient.GetDatabase("BAI_Test_Sample");
+
 
         private static BAIClient _Instance;
         private static readonly Type _CallbackType = TypeBinder.GetRemotingTypeByInterface(typeof(IClientControllerCallback));
@@ -88,6 +78,8 @@ namespace DoX.BAI.ImpEx.Client
 
         public event ClientStatusChangedDelegate ClientStatusChanged;
 
+        private Timer pingTimer;
+
         private BAIClient()
         {
             AppDomain.CurrentDomain.UnhandledException += (o, e) =>
@@ -100,6 +92,22 @@ namespace DoX.BAI.ImpEx.Client
                 WriteLogEntry(MethodBase.GetCurrentMethod(), msg + e.ExceptionObject, EventLogEntryType.Error);
             };
             this._httpClient = new HttpClient();
+
+           
+            pingTimer = new Timer(_ =>
+            {
+                Task.Run(async () => await PingEndpointAsync())
+                    .ContinueWith(task =>
+                    {
+                        if (task.Exception != null)
+                        {
+                            // Log or handle exception
+                            // Make sure to access Exception property to avoid unobserved task exceptions
+                            WriteLogEntry(MethodBase.GetCurrentMethod(), "Error in PingEndpointAsync: " + task.Exception.Message, EventLogEntryType.Error);
+                        }
+                    });
+            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+
         }
 
         static BAIClient()
@@ -816,30 +824,30 @@ namespace DoX.BAI.ImpEx.Client
                     Import();
                 }
 
-                if (_PollCounter % 30 == 0)
-                {
-                    var exports = (from item in tempConfig.ConfigEntries where item.Ident.Direction == Direction.ServerToClient select item.ShallowCopy()).ToList();
-                    foreach (var configEntry in exports)
-                    {
-                        if (string.IsNullOrEmpty(configEntry.Ident.Location))
-                        {
-                            WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location is empty", ToString()), EventLogEntryType.Error);
-                            continue;
-                        }
-                        else
-                        {
-                            try { Path.GetDirectoryName(configEntry.Ident.Location); }
-                            catch (Exception)
-                            {
-                                WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location contains an invalid path {1}", ToString(), configEntry.Ident.Location), EventLogEntryType.Error);
-                                continue;
-                            }
-                        }
+                //if (_PollCounter % 30 == 0)
+                //{
+                //    var exports = (from item in tempConfig.ConfigEntries where item.Ident.Direction == Direction.ServerToClient select item.ShallowCopy()).ToList();
+                //    foreach (var configEntry in exports)
+                //    {
+                //        if (string.IsNullOrEmpty(configEntry.Ident.Location))
+                //        {
+                //            WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location is empty", ToString()), EventLogEntryType.Error);
+                //            continue;
+                //        }
+                //        else
+                //        {
+                //            try { Path.GetDirectoryName(configEntry.Ident.Location); }
+                //            catch (Exception)
+                //            {
+                //                WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location contains an invalid path {1}", ToString(), configEntry.Ident.Location), EventLogEntryType.Error);
+                //                continue;
+                //            }
+                //        }
 
-                        if (!OverwriteExportFile(tempConfig))
-                            RenameImportedTmpFiles(new DirectoryInfo(configEntry.Ident.Location), configEntry);
-                    }
-                }
+                //        if (!OverwriteExportFile(tempConfig))
+                //            RenameImportedTmpFiles(new DirectoryInfo(configEntry.Ident.Location), configEntry);
+                //    }
+                //}
             }
 
             // --- Timer wieder starten
@@ -1265,6 +1273,50 @@ namespace DoX.BAI.ImpEx.Client
             return obj;
         }
 
+        private async Task PingEndpointAsync()
+        {
+            var endpoint = _ClientSideConfig.IntegrationClientUrl;
+            if (string.IsNullOrWhiteSpace(endpoint))
+            {
+                
+                WriteLogEntry(MethodBase.GetCurrentMethod(), "Ping endpoint is not configured.", EventLogEntryType.Warning);
+                return;
+            }
+
+            try
+            {
+                // Create JSON payload with current timestamp
+                var payload = new
+                {
+                    ping = new
+                    {
+                        timestamp = DateTime.UtcNow.ToString("o"), // ISO 8601 format
+                        meta = _ClientSideConfig.ServiceUrl // Replace with actual meta information
+                    }
+                };
+                string jsonPayload = JsonConvert.SerializeObject(payload);
+
+                // Send POST request with JSON payload
+                HttpResponseMessage response = await PostJsonAsync(endpoint, jsonPayload);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Log success
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), $"Ping to {endpoint} successful.", EventLogEntryType.Information);
+                }
+                else
+                {
+                    // Log failure
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), $"Ping to {endpoint} failed. Status code: {response.StatusCode}", EventLogEntryType.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLogEntry(MethodBase.GetCurrentMethod(), $"Error pinging {endpoint}: {ex.Message}", EventLogEntryType.Error);
+            }
+        }
+
+
+
 
         public async Task<HttpResponseMessage> PostJsonAsync(string endpoint, string jsonPayload, string category = "")
         {
@@ -1350,7 +1402,7 @@ namespace DoX.BAI.ImpEx.Client
                         jsonData = jsonObject.ToString();
                         PostJsonAsync(_ClientSideConfig.IntegrationClientUrl, jsonData).Wait();
 
-                        //Thread.Sleep(2000);
+                       
                         
                     }
                     else if (format == DataFormat.RawData)
@@ -1385,8 +1437,8 @@ namespace DoX.BAI.ImpEx.Client
                 }
             }
 
-            // Depug only
-            imported.Clear();
+            // Comment out on depug only
+            //imported.Clear();
 
             return imported;
         }

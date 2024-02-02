@@ -174,7 +174,7 @@
             this.groupBoxProxy.Controls.Add(this.labelAddressPort);
             this.groupBoxProxy.Controls.Add(this.textBoxProxyPassword);
             this.groupBoxProxy.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBoxProxy.Location = new System.Drawing.Point(0, 210);
+            this.groupBoxProxy.Location = new System.Drawing.Point(0, 226);
             this.groupBoxProxy.Name = "groupBoxProxy";
             this.groupBoxProxy.Size = new System.Drawing.Size(368, 155);
             this.groupBoxProxy.TabIndex = 2;
@@ -310,7 +310,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(368, 365);
+            this.ClientSize = new System.Drawing.Size(368, 381);
             this.Controls.Add(this.groupBoxWebservice);
             this.Controls.Add(this.groupBoxProxy);
             this.Controls.Add(this.buttonCancel);
