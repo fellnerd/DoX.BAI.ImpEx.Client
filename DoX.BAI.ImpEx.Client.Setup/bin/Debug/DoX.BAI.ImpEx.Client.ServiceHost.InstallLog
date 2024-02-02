@@ -1,0 +1,151 @@
+﻿Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe wird installiert.
+Betroffene Parameter:
+   logtoconsole = 
+   assemblypath = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe
+   logfile = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog
+
+Argument name is missing
+
+Valid Parameters: 
+
+/name
+   Specifies the unique Name of the Service (is required)
+
+/displayname
+   Specifies Display-Name of the Service
+
+/account
+   Specifies the Account on which the Service runs
+    possible values: networkservice, localsystem, localservice, user
+
+/user
+   Username in case the Account = User
+    not necessary with built-in accounts
+
+/password
+   Password in case the Account = User
+    not necessary with built-in accounts
+
+/starttype
+   Starttype of the service (optional)
+    valid are: automatic, manual, disabled
+
+Example: Install
+DoX.BAI.ImpEx.Client.ServiceHost.exe /i
+   /name=Dorner_FileClient1
+   /displayname=Dorner FileClient1
+   /account=User
+   /user=domainX\userX
+   /starttype=automatic
+   /password=Foo
+
+Example: Uninstall
+DoX.BAI.ImpEx.Client.ServiceHost.exe /u
+/name=Dorner_FileClient1
+
+
+Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe wird zurückgesetzt.
+Betroffene Parameter:
+   logtoconsole = 
+   assemblypath = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe
+   logfile = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog
+Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe wird installiert.
+Betroffene Parameter:
+   logtoconsole = 
+   assemblypath = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe
+   logfile = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog
+
+Argument name is missing
+
+Valid Parameters: 
+
+/name
+   Specifies the unique Name of the Service (is required)
+
+/displayname
+   Specifies Display-Name of the Service
+
+/account
+   Specifies the Account on which the Service runs
+    possible values: networkservice, localsystem, localservice, user
+
+/user
+   Username in case the Account = User
+    not necessary with built-in accounts
+
+/password
+   Password in case the Account = User
+    not necessary with built-in accounts
+
+/starttype
+   Starttype of the service (optional)
+    valid are: automatic, manual, disabled
+
+Example: Install
+DoX.BAI.ImpEx.Client.ServiceHost.exe /i
+   /name=Dorner_FileClient1
+   /displayname=Dorner FileClient1
+   /account=User
+   /user=domainX\userX
+   /starttype=automatic
+   /password=Foo
+
+Example: Uninstall
+DoX.BAI.ImpEx.Client.ServiceHost.exe /u
+/name=Dorner_FileClient1
+
+
+Dienst Dorner_BAI FileClient wird installiert...
+Die EventLog-Quelle Dorner_BAI FileClient im Protokoll Application wird erstellt...
+Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe wird zurückgesetzt.
+Betroffene Parameter:
+   logtoconsole = 
+   assemblypath = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe
+   logfile = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog
+Der vorherige Zustand des Ereignisprotokolls für die Quelle Dorner_BAI FileClient wird wiederhergestellt.
+Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe wird installiert.
+Betroffene Parameter:
+   logtoconsole = 
+   assemblypath = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe
+   logfile = C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog
+
+Argument name is missing
+
+Valid Parameters: 
+
+/name
+   Specifies the unique Name of the Service (is required)
+
+/displayname
+   Specifies Display-Name of the Service
+
+/account
+   Specifies the Account on which the Service runs
+    possible values: networkservice, localsystem, localservice, user
+
+/user
+   Username in case the Account = User
+    not necessary with built-in accounts
+
+/password
+   Password in case the Account = User
+    not necessary with built-in accounts
+
+/starttype
+   Starttype of the service (optional)
+    valid are: automatic, manual, disabled
+
+Example: Install
+DoX.BAI.ImpEx.Client.ServiceHost.exe /i
+   /name=Dorner_FileClient1
+   /displayname=Dorner FileClient1
+   /account=User
+   /user=domainX\userX
+   /starttype=automatic
+   /password=Foo
+
+Example: Uninstall
+DoX.BAI.ImpEx.Client.ServiceHost.exe /u
+/name=Dorner_FileClient1
+
+

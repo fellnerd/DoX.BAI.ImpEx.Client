@@ -1,0 +1,17 @@
+C:\Users\with\source\repos\DornerLink\Application\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Shared.Client.dll
+C:\Users\with\source\repos\DornerLink\Application\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Shared.Client.pdb
+C:\Users\with\source\repos\DornerLink\Application\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.csproj.AssemblyReference.cache
+C:\Users\with\source\repos\DornerLink\Application\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.csproj.CoreCompileInputs.cache
+C:\Users\with\source\repos\DornerLink\Application\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.dll
+C:\Users\with\source\repos\DornerLink\Application\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.pdb
+C:\Users\with\source\DornerLink_Client\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.csproj.CoreCompileInputs.cache
+C:\Users\with\source\DornerLink_Client\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.dll
+C:\Users\with\source\DornerLink_Client\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.pdb
+C:\Users\with\source\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Shared.Client.dll
+C:\Users\with\source\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Shared.Client.pdb
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Shared.Client.dll
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Shared.Client.pdb
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.csproj.AssemblyReference.cache
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.csproj.CoreCompileInputs.cache
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.dll
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Shared.Client\obj\Debug\DoX.BAI.ImpEx.Shared.Client.pdb

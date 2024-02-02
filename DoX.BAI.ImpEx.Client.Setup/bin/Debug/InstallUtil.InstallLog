@@ -1,0 +1,41 @@
+﻿
+Eine transaktive Installation wird ausgeführt.
+
+Die Installationsphase wird gestartet.
+Die Protokolldatei enthält den Fortschritt der Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe.
+Die Datei befindet sich in C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog.
+
+Während der Installationsphase ist eine Ausnahme aufgetreten.
+System.ArgumentOutOfRangeException: Der Index und die Länge müssen sich auf eine Position in der Zeichenfolge beziehen.
+Parametername: length
+
+Die Rollbackphase der Installation wird gestartet.
+Die Protokolldatei enthält den Fortschritt der Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe.
+Die Datei befindet sich in C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog.
+
+Die Rollbackphase wurde erfolgreich abgeschlossen.
+
+Die transaktive Installation ist abgeschlossen.
+
+Eine transaktive Installation wird ausgeführt.
+
+Die Installationsphase wird gestartet.
+Die Protokolldatei enthält den Fortschritt der Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe.
+Die Datei befindet sich in C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog.
+
+Während der Installationsphase ist eine Ausnahme aufgetreten.
+System.ComponentModel.Win32Exception: Der Kontoname ist unzulässig oder nicht vorhanden, oder das Kennwort ist für den angegebenen Kontennamen ungültig
+
+Die Rollbackphase der Installation wird gestartet.
+Die Protokolldatei enthält den Fortschritt der Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe.
+Die Datei befindet sich in C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog.
+
+Die Rollbackphase wurde erfolgreich abgeschlossen.
+
+Die transaktive Installation ist abgeschlossen.
+
+Eine transaktive Installation wird ausgeführt.
+
+Die Installationsphase wird gestartet.
+Die Protokolldatei enthält den Fortschritt der Assembly C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe.
+Die Datei befindet sich in C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.InstallLog.
