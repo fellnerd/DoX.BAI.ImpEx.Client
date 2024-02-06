@@ -106,7 +106,7 @@ namespace DoX.BAI.ImpEx.Client
                             WriteLogEntry(MethodBase.GetCurrentMethod(), "Error in PingEndpointAsync: " + task.Exception.Message, EventLogEntryType.Error);
                         }
                     });
-            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(10));
 
         }
 
