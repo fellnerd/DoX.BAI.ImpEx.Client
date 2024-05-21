@@ -160,3 +160,15 @@ Nachdem Sie diese Schritte durchgeführt haben, sollten Sie nun eine neue Tabell
 ```
 Achten Sie darauf das die Tabelle den selben Namen trägt wie die Kategorie welche vom BAI Service bereitgestellt wird.
 ```
+
+### Install service on host
+
+1. Execute PowerShell command as Admin
+```
+sc.exe create "BAI_Host" binPath="C:\source\DoX.BAI.ImpEx.Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ServiceHost.exe" start= auto
+```
+
+2. Start the service
+3. Open GUI
+4. Set server credential
+5. Set middleware endpoint e.g: /api/ingest

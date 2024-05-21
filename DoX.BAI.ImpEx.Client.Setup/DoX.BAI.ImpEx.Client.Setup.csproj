@@ -79,6 +79,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Migrated rules for DoX.BAI.ImpEx.Client.Setup.ruleset" />
   </ItemGroup>
   <ItemGroup>

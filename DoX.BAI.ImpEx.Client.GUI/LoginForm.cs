@@ -68,6 +68,12 @@ namespace DoX.BAI.ImpEx.Client
                 return;
             }
 
+            if (String.IsNullOrEmpty(Config.IntegrationClientUrl))
+            {
+                MessageBox.Show("Client URL is empty!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             DialogResult = DialogResult.OK;
             this.Close();
         }

@@ -1,6 +1,7 @@
 ﻿using DoX.BAI.ImpEx.Client.BAIService;
 using DoX.BAI.ImpEx.Shared;
 using Microsoft.Win32;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,19 +13,18 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Security;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Web.Services.Description;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -51,8 +51,12 @@ namespace DoX.BAI.ImpEx.Client
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public extern static bool CloseHandle(IntPtr handle);
 
-        private static readonly Regex _FileSearchPattern = new Regex(@"^([\w.-]+[*]*\.\w{2,})|([*]{1}\.\w{2,})");
+        private readonly HttpClient _httpClient;
+
+
         private const String UPDATE_PROC_NAME = "DoX.BAI.ImpEx.Client.Updater.exe";
+
+
 
         private static BAIClient _Instance;
         private static readonly Type _CallbackType = TypeBinder.GetRemotingTypeByInterface(typeof(IClientControllerCallback));
@@ -75,6 +79,8 @@ namespace DoX.BAI.ImpEx.Client
 
         public event ClientStatusChangedDelegate ClientStatusChanged;
 
+        private Timer pingTimer;
+
         private BAIClient()
         {
             AppDomain.CurrentDomain.UnhandledException += (o, e) =>
@@ -86,6 +92,25 @@ namespace DoX.BAI.ImpEx.Client
                 msg += ":\r\n";
                 WriteLogEntry(MethodBase.GetCurrentMethod(), msg + e.ExceptionObject, EventLogEntryType.Error);
             };
+            this._httpClient = new HttpClient();
+
+          
+
+           
+            pingTimer = new Timer(_ =>
+            {
+                Task.Run(async () => await PingEndpointAsync())
+                    .ContinueWith(task =>
+                    {
+                        if (task.Exception != null)
+                        {
+                            // Log or handle exception
+                            // Make sure to access Exception property to avoid unobserved task exceptions
+                            WriteLogEntry(MethodBase.GetCurrentMethod(), "Error in PingEndpointAsync: " + task.Exception.Message, EventLogEntryType.Error);
+                        }
+                    });
+            }, null, TimeSpan.Zero, TimeSpan.FromMinutes(10));
+
         }
 
         static BAIClient()
@@ -586,6 +611,7 @@ namespace DoX.BAI.ImpEx.Client
             _ClientSideConfig.Username = Properties.Settings.Default.Username;
             _ClientSideConfig.Password = Decrypt(Properties.Settings.Default.Password);
             _ClientSideConfig.ServiceUrl = Properties.Settings.Default.ServiceUrl;
+            _ClientSideConfig.IntegrationClientUrl = Properties.Settings.Default.IntegrationClientUrl;
             _ClientSideConfig.ProxyAddress = Properties.Settings.Default.ProxyAddress;
             _ClientSideConfig.ProxyUsername = Properties.Settings.Default.ProxyUsername;
             _ClientSideConfig.ProxyPassword = Decrypt(Properties.Settings.Default.ProxyPassword);
@@ -596,9 +622,11 @@ namespace DoX.BAI.ImpEx.Client
         {
             if (_ClientSideConfig != null)
             {
+                var d = Properties.Settings.Default;
                 Properties.Settings.Default.Username = _ClientSideConfig.Username;
                 Properties.Settings.Default.Password = Encrypt(_ClientSideConfig.Password);
                 Properties.Settings.Default.ServiceUrl = _ClientSideConfig.ServiceUrl;
+                Properties.Settings.Default.IntegrationClientUrl = _ClientSideConfig.IntegrationClientUrl;
                 Properties.Settings.Default.ProxyAddress = _ClientSideConfig.ProxyAddress;
                 Properties.Settings.Default.ProxyUsername = _ClientSideConfig.ProxyUsername;
                 Properties.Settings.Default.ProxyPassword = Encrypt(_ClientSideConfig.ProxyPassword);
@@ -802,30 +830,30 @@ namespace DoX.BAI.ImpEx.Client
                     Import();
                 }
 
-                if (_PollCounter % 30 == 0)
-                {
-                    var exports = (from item in tempConfig.ConfigEntries where item.Ident.Direction == Direction.ServerToClient select item.ShallowCopy()).ToList();
-                    foreach (var configEntry in exports)
-                    {
-                        if (string.IsNullOrEmpty(configEntry.Ident.Location))
-                        {
-                            WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location is empty", ToString()), EventLogEntryType.Error);
-                            continue;
-                        }
-                        else
-                        {
-                            try { Path.GetDirectoryName(configEntry.Ident.Location); }
-                            catch (Exception)
-                            {
-                                WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location contains an invalid path {1}", ToString(), configEntry.Ident.Location), EventLogEntryType.Error);
-                                continue;
-                            }
-                        }
+                //if (_PollCounter % 30 == 0)
+                //{
+                //    var exports = (from item in tempConfig.ConfigEntries where item.Ident.Direction == Direction.ServerToClient select item.ShallowCopy()).ToList();
+                //    foreach (var configEntry in exports)
+                //    {
+                //        if (string.IsNullOrEmpty(configEntry.Ident.Location))
+                //        {
+                //            WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location is empty", ToString()), EventLogEntryType.Error);
+                //            continue;
+                //        }
+                //        else
+                //        {
+                //            try { Path.GetDirectoryName(configEntry.Ident.Location); }
+                //            catch (Exception)
+                //            {
+                //                WriteLogEntry(MethodBase.GetCurrentMethod(), String.Format("ConfigEntry {0} : Column Location contains an invalid path {1}", ToString(), configEntry.Ident.Location), EventLogEntryType.Error);
+                //                continue;
+                //            }
+                //        }
 
-                        if (!OverwriteExportFile(tempConfig))
-                            RenameImportedTmpFiles(new DirectoryInfo(configEntry.Ident.Location), configEntry);
-                    }
-                }
+                //        if (!OverwriteExportFile(tempConfig))
+                //            RenameImportedTmpFiles(new DirectoryInfo(configEntry.Ident.Location), configEntry);
+                //    }
+                //}
             }
 
             // --- Timer wieder starten
@@ -1138,6 +1166,7 @@ namespace DoX.BAI.ImpEx.Client
                 {
                     //service.Url
                     WriteLogEntry(MethodBase.GetCurrentMethod(), "Hole Daten vom Server", EventLogEntryType.Information);
+                    Console.WriteLine("Hole Daten vom Server");
                     DataEntry[] t;
 
                     var sw2 = new Stopwatch();
@@ -1215,93 +1244,9 @@ namespace DoX.BAI.ImpEx.Client
             return json;
         }
 
-        private void ImportDataEntriesInDatabase(string jsonInputData)
-        {
-            var jsonData = JsonConvert.DeserializeObject<Dictionary<string, List<Dictionary<string, string>>>>(jsonInputData);
-
-            if (jsonData != null)
-            {
-                foreach (var keyValuePair in jsonData)
-                {
-                    Console.WriteLine($"Processing category: {keyValuePair.Key}");
-
-                    string clientUrl = _ClientSideConfig.IntegrationClientUrl;
-                    if (!String.IsNullOrEmpty(clientUrl))
-                    {
-                        if (!clientUrl.EndsWith("/"))
-                        {
-                            clientUrl += "/";
-                        }
-                    }
-
-                    string endpoint = $"{clientUrl}items/{keyValuePair.Key}";
-
-                    int itemCount = 0;
-                    List<Dictionary<string, string>> batch = new List<Dictionary<string, string>>(BATCH_SIZE);
-
-                    foreach (var item in keyValuePair.Value)
-                    {
-                        batch.Add(item);
-                        itemCount++;
-
-                        if (itemCount % BATCH_SIZE == 0)
-                        {
-                            PostDataToEndpoint(batch, _ClientSideConfig.IntegrationClientToken, endpoint, keyValuePair.Key);
-                            batch.Clear();
-                        }
-                    }
-
-                    // Send any remaining items
-                    if (batch.Count > 0)
-                    {
-                        PostDataToEndpoint(batch, _ClientSideConfig.IntegrationClientToken, endpoint, keyValuePair.Key);
-                    }
-                }
-            }
-        }
+    
 
 
-
-        private void PostDataToEndpoint(List<Dictionary<string, string>> data, string bearerToken, string endpointUrl, string category)
-        {
-            if (string.IsNullOrEmpty(bearerToken)) throw new ArgumentNullException(nameof(bearerToken));
-            if (string.IsNullOrEmpty(endpointUrl)) throw new ArgumentNullException(nameof(endpointUrl));
-            if (data == null || data.Count == 0) throw new ArgumentException("Data list is null or empty.", nameof(data));
-
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
-                    var json = JsonConvert.SerializeObject(data);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                    var response = client.PostAsync(endpointUrl, content).GetAwaiter().GetResult();
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        WriteLogEntry(MethodBase.GetCurrentMethod(), "Daten erfolgreich in Datenbank geschriben:\r\n" + category, EventLogEntryType.Information);
-                    }
-                    else
-                    {
-                        var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                        throw new HttpRequestException($"Failed to send data. Status code: {response.StatusCode}. Response content: {responseContent}");
-                    }
-                }
-                catch (HttpRequestException httpEx)
-                {
-                    Console.Error.WriteLine($"HTTP request error: {httpEx.Message}");
-                    WriteLogEntry(MethodBase.GetCurrentMethod(), "Fehler beim Aufruf des Integration Clients:\r\n" + httpEx.ToString(), EventLogEntryType.Error);
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine($"An error occurred: {ex.Message}");
-
-                    throw;
-                }
-            }
-        }
 
         JObject RemoveAtPrefixes(JObject obj)
         {
@@ -1334,22 +1279,138 @@ namespace DoX.BAI.ImpEx.Client
             return obj;
         }
 
+        private async Task PingEndpointAsync()
+        {
+            var endpoint = _ClientSideConfig.IntegrationClientUrl;
+            if (string.IsNullOrWhiteSpace(endpoint))
+            {
+                
+                WriteLogEntry(MethodBase.GetCurrentMethod(), "Ping endpoint is not configured.", EventLogEntryType.Warning);
+                return;
+            }
 
+            try
+            {
+                // Create JSON payload with current timestamp
+                var payload = new
+                {
+                    ping = new
+                    {
+                        timestamp = DateTime.UtcNow.ToString("o"), // ISO 8601 format
+                        meta = _ClientSideConfig.ServiceUrl // Replace with actual meta information
+                    }
+                };
+                string jsonPayload = JsonConvert.SerializeObject(payload);
+
+                // Send POST request with JSON payload
+                HttpResponseMessage response = await PostJsonAsync(endpoint, jsonPayload);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Log success
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), $"Ping to {endpoint} successful.", EventLogEntryType.Information);
+                }
+                else
+                {
+                    // Log failure
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), $"Ping to {endpoint} failed. Status code: {response.StatusCode}", EventLogEntryType.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLogEntry(MethodBase.GetCurrentMethod(), $"Error pinging {endpoint}: {ex.Message}", EventLogEntryType.Error);
+            }
+        }
+
+
+
+
+        public async Task<HttpResponseMessage> PostJsonAsync(string endpoint, string jsonPayload, string category = "")
+        {
+            if (string.IsNullOrWhiteSpace(endpoint))
+            {
+                WriteLogEntry(MethodBase.GetCurrentMethod(), "Endpoint cannot be null or whitespace.", EventLogEntryType.Error);
+                throw new ArgumentException("Endpoint cannot be null or whitespace.", nameof(endpoint));
+            }
+
+            if (string.IsNullOrWhiteSpace(jsonPayload))
+            {
+                WriteLogEntry(MethodBase.GetCurrentMethod(), "JSON payload cannot be null or whitespace.", EventLogEntryType.Error);
+                throw new ArgumentException("JSON payload cannot be null or whitespace.", nameof(jsonPayload));
+            }
+
+            try
+            {
+                HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync(endpoint, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Log the error
+                    string errorMessage = $"Error: {response.StatusCode} - {response.ReasonPhrase}";
+                    Console.Error.WriteLine(errorMessage);
+                    WriteLogEntry(MethodBase.GetCurrentMethod(), errorMessage, EventLogEntryType.Error);
+
+                    // Throw an exception
+                    throw new HttpRequestException(errorMessage);
+                }
+
+                Console.WriteLine($"Daten wurden erfolgreich übertragen: {category}");
+                WriteLogEntry(MethodBase.GetCurrentMethod(), $"Daten wurden erfolgreich übertragen: {category}", EventLogEntryType.Information);
+
+                return response;
+            }
+            catch (HttpRequestException e)
+            {
+                WriteLogEntry(MethodBase.GetCurrentMethod(), $"Request error: {e.Message}", EventLogEntryType.Error);
+
+                Console.Error.WriteLine($"Request error: {e.Message}");
+                throw; // Re-throwing the exception preserves the original stack trace.
+            }
+            catch (Exception e)
+            {
+                WriteLogEntry(MethodBase.GetCurrentMethod(), $"Unexpected error: {e.Message}", EventLogEntryType.Error);
+
+                Console.Error.WriteLine($"Unexpected error: {e.Message}");
+                throw; // Re-throwing the exception preserves the original stack trace.
+            }
+        }
+
+        private void XMLFileToMongo()
+        {
+            string filePath = @"C:\Users\User\Dimetrics\Dimetrics-Projects - General\PPMC AG\Bai Data Integration\SSK-Kies\Ls\Ls.XML";
+            string xmlData = File.ReadAllText(filePath);
+
+            var jsonData = ConvertXmlToJson(xmlData);
+            var jsonObject = JObject.Parse(jsonData);
+            jsonObject = RemoveAtPrefixes(jsonObject);
+            jsonData = jsonObject.ToString();
+            PostJsonAsync("http://localhost:8010/api/ingest", jsonData).Wait();
+            Console.WriteLine("Testfile erfolgreich an Mongo übertrage");
+
+        }
 
         private IEnumerable<string> ImportDataEntries(IEnumerable<DataEntry> data, bool argOverwriteFile = false)
         {
             var imported = new List<string>();
+
+            XMLFileToMongo();
+
 
             foreach (var import in data)
             {
                 try
                 {
                     Console.WriteLine("Datenkategorie: " + import.Category);
-
+                    //if(import.Category == "BAI_Err")
+                    //{
+                    //    imported.Add(import.Category);
+                    //    return imported;
+                    //}
                     var cfgEntry = _ServerSideConfig.ConfigEntries.FirstOrDefault(c => string.Equals(c.Ident.Category, import.Category, StringComparison.InvariantCultureIgnoreCase) && string.Equals(c.Ident.Location, import.Location, StringComparison.InvariantCultureIgnoreCase));
 
                     if (cfgEntry == null || !cfgEntry.Enabled)
                     {
+                        WriteLogEntry(MethodBase.GetCurrentMethod(), "Die Datenkategorie ist nicht aktiv oder nicht vorhanden.", EventLogEntryType.Error);
                         Console.WriteLine("Die Datenkategorie ist nicht aktiv oder nicht vorhanden.");
                         continue;
                     }
@@ -1361,9 +1422,9 @@ namespace DoX.BAI.ImpEx.Client
                         var jsonObject = JObject.Parse(jsonData);
                         jsonObject = RemoveAtPrefixes(jsonObject);
                         jsonData = jsonObject.ToString();
-                        //Console.WriteLine(_ClientSideConfig.IntegrationClientUrl);
-                        ImportDataEntriesInDatabase(jsonData);
-                        Thread.Sleep(2000);
+                        PostJsonAsync(_ClientSideConfig.IntegrationClientUrl, jsonData).Wait();
+
+                       
                         
                     }
                     else if (format == DataFormat.RawData)
@@ -1384,7 +1445,7 @@ namespace DoX.BAI.ImpEx.Client
                         }
                         else
                         {
-                            Console.WriteLine(import.Data);
+                            Console.WriteLine(import.Data); 
                         }
                     }
 
@@ -1398,10 +1459,10 @@ namespace DoX.BAI.ImpEx.Client
                 }
             }
 
-            // Depug only
+            // Comment out on depug only
             imported.Clear();
 
-            return imported;
+           return imported;
         }
 
 

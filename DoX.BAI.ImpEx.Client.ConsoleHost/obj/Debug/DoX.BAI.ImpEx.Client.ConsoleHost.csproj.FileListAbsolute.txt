@@ -1,0 +1,12 @@
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe.config
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe.manifest
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.application
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.pdb
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.csproj.AssemblyReference.cache
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.csproj.CoreCompileInputs.cache
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe.manifest
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.application
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.csproj.CopyComplete
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.pdb

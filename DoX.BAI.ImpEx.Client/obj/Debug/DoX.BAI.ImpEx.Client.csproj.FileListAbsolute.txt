@@ -1,0 +1,11 @@
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\mongocrypt.dll
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.dll.config
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.dll
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\DoX.BAI.ImpEx.Client.pdb
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client\obj\Debug\DoX.BAI.ImpEx.Client.csproj.AssemblyReference.cache
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client\obj\Debug\DoX.BAI.ImpEx.Client.Properties.Resources.resources
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client\obj\Debug\DoX.BAI.ImpEx.Client.csproj.GenerateResource.cache
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client\obj\Debug\DoX.BAI.ImpEx.Client.csproj.CoreCompileInputs.cache
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client\obj\Debug\DoX.BAI.ImpEx.Client.csproj.CopyComplete
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client\obj\Debug\DoX.BAI.ImpEx.Client.dll
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client\obj\Debug\DoX.BAI.ImpEx.Client.pdb
