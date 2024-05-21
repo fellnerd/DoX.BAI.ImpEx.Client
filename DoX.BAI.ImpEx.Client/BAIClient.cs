@@ -24,6 +24,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Services.Description;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -92,6 +93,8 @@ namespace DoX.BAI.ImpEx.Client
                 WriteLogEntry(MethodBase.GetCurrentMethod(), msg + e.ExceptionObject, EventLogEntryType.Error);
             };
             this._httpClient = new HttpClient();
+
+          
 
            
             pingTimer = new Timer(_ =>
@@ -608,6 +611,7 @@ namespace DoX.BAI.ImpEx.Client
             _ClientSideConfig.Username = Properties.Settings.Default.Username;
             _ClientSideConfig.Password = Decrypt(Properties.Settings.Default.Password);
             _ClientSideConfig.ServiceUrl = Properties.Settings.Default.ServiceUrl;
+            _ClientSideConfig.IntegrationClientUrl = Properties.Settings.Default.IntegrationClientUrl;
             _ClientSideConfig.ProxyAddress = Properties.Settings.Default.ProxyAddress;
             _ClientSideConfig.ProxyUsername = Properties.Settings.Default.ProxyUsername;
             _ClientSideConfig.ProxyPassword = Decrypt(Properties.Settings.Default.ProxyPassword);
@@ -618,9 +622,11 @@ namespace DoX.BAI.ImpEx.Client
         {
             if (_ClientSideConfig != null)
             {
+                var d = Properties.Settings.Default;
                 Properties.Settings.Default.Username = _ClientSideConfig.Username;
                 Properties.Settings.Default.Password = Encrypt(_ClientSideConfig.Password);
                 Properties.Settings.Default.ServiceUrl = _ClientSideConfig.ServiceUrl;
+                Properties.Settings.Default.IntegrationClientUrl = _ClientSideConfig.IntegrationClientUrl;
                 Properties.Settings.Default.ProxyAddress = _ClientSideConfig.ProxyAddress;
                 Properties.Settings.Default.ProxyUsername = _ClientSideConfig.ProxyUsername;
                 Properties.Settings.Default.ProxyPassword = Encrypt(_ClientSideConfig.ProxyPassword);
@@ -1369,9 +1375,25 @@ namespace DoX.BAI.ImpEx.Client
             }
         }
 
+        private void XMLFileToMongo()
+        {
+            string filePath = @"C:\Users\User\Dimetrics\Dimetrics-Projects - General\PPMC AG\Bai Data Integration\SSK-Kies\Ls\Ls.XML";
+            string xmlData = File.ReadAllText(filePath);
+
+            var jsonData = ConvertXmlToJson(xmlData);
+            var jsonObject = JObject.Parse(jsonData);
+            jsonObject = RemoveAtPrefixes(jsonObject);
+            jsonData = jsonObject.ToString();
+            PostJsonAsync("http://localhost:8010/api/ingest", jsonData).Wait();
+            Console.WriteLine("Testfile erfolgreich an Mongo übertrage");
+
+        }
+
         private IEnumerable<string> ImportDataEntries(IEnumerable<DataEntry> data, bool argOverwriteFile = false)
         {
             var imported = new List<string>();
+
+            XMLFileToMongo();
 
 
             foreach (var import in data)

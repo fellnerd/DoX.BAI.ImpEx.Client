@@ -84,6 +84,7 @@ namespace DoX.BAI.ImpEx.Client
 
                     try
                     {
+                        var e = GetAppSettingsPath();
                         _SettingsXML.Load(Path.Combine(GetAppSettingsPath(), GetAppSettingsFilename()));
                     }
                     catch (Exception)

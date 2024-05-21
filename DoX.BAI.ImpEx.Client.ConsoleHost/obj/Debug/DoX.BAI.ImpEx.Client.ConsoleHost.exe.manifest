@@ -61,7 +61,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>F3/+LGXQebDvljeOJglIo5S8dUcpRPUr4apnDn5vjXo=</dsig:DigestValue>
+        <dsig:DigestValue>J5NDUgHke15bkSYEUhau9/eElb7hPEfHylm6lCixaNc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -73,7 +73,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sLtXPXxlN/Nlm66WFfOGkG3y5s9jxOcaQrgUWJSW5os=</dsig:DigestValue>
+        <dsig:DigestValue>D34Secz2tkmUNcy5JArelEmIh1ovu1/0Z5WweXSEdeM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -137,13 +137,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="DoX.BAI.ImpEx.Client.ConsoleHost.exe.config" size="1433">
+  <file name="DoX.BAI.ImpEx.Client.ConsoleHost.exe.config" size="1434">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>OGBKtEMCi+25GcxmiTEPK8sLsbhVDIWznByaI4+WykQ=</dsig:DigestValue>
+      <dsig:DigestValue>z6RB+3WPaP0TuF/wuEPV+Nl4J09zhC55iKd3p8hrYq4=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -38,6 +38,7 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.textBoxServiceUrl = new System.Windows.Forms.TextBox();
+            this.textBoxIntegrationClientUrl = new System.Windows.Forms.TextBox();
             this.labelServiceUrl = new System.Windows.Forms.Label();
             this.groupBoxProxy = new System.Windows.Forms.GroupBox();
             this.textBoxProxyDomain = new System.Windows.Forms.TextBox();
