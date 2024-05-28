@@ -10,3 +10,4 @@ C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Cons
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.csproj.CopyComplete
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.pdb
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\app.config

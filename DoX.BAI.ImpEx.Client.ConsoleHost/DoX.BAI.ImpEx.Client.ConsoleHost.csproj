@@ -116,7 +116,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="DoX.BAI.ImpEx.Client.ConsoleHost_TemporaryKey.pfx" />
     <None Include="Migrated rules for DoX.BAI.ImpEx.Client.ConsoleHost.ruleset" />
     <None Include="packages.config" />
@@ -152,7 +154,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Notes="&lt;Notes Project=&quot;73103a27-be14-415f-ac39-47824ceb40e6&quot; xmlns=&quot;clr-namespace:StickyNotes.Model;assembly=StickyNotes&quot;&gt;&lt;Notes.StickyNotes&gt;&lt;Note FilePath=&quot;&quot; Content=&quot;&quot; Date=&quot;2008-03-20T18:25:42.4732096+01:00&quot; /&gt;&lt;/Notes.StickyNotes&gt;&lt;/Notes&gt;" StartDate="20081031" />
+      <UserProperties StartDate="20081031" Notes="&lt;Notes Project=&quot;73103a27-be14-415f-ac39-47824ceb40e6&quot; xmlns=&quot;clr-namespace:StickyNotes.Model;assembly=StickyNotes&quot;&gt;&lt;Notes.StickyNotes&gt;&lt;Note FilePath=&quot;&quot; Content=&quot;&quot; Date=&quot;2008-03-20T18:25:42.4732096+01:00&quot; /&gt;&lt;/Notes.StickyNotes&gt;&lt;/Notes&gt;" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
