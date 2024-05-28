@@ -1393,7 +1393,6 @@ namespace DoX.BAI.ImpEx.Client
         {
             var imported = new List<string>();
 
-            XMLFileToMongo();
 
 
             foreach (var import in data)
@@ -1460,7 +1459,7 @@ namespace DoX.BAI.ImpEx.Client
             }
 
             // Comment out on depug only
-            imported.Clear();
+            //imported.Clear();
 
            return imported;
         }
