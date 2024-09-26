@@ -14,6 +14,6 @@ C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\obj\Debug\DoX.BAI.ImpEx.Client.GUI.csproj.CoreCompileInputs.cache
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\obj\Debug\DoX.BAI.ImpEx.Client.GUI.exe.manifest
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\obj\Debug\DoX.BAI.ImpEx.Client.GUI.application
-C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\obj\Debug\DoX.BAI.ImpEx.Client.GUI.csproj.CopyComplete
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\obj\Debug\DoX.BAI.ImpEx.Client.GUI.exe
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\obj\Debug\DoX.BAI.ImpEx.Client.GUI.pdb
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.GUI\obj\Debug\DoX.BAI..781A00B2.Up2Date

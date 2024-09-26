@@ -7,7 +7,7 @@ C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Cons
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.csproj.CoreCompileInputs.cache
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe.manifest
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.application
-C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.csproj.CopyComplete
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.exe
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI.ImpEx.Client.ConsoleHost.pdb
 C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.Setup\bin\Debug\app.config
+C:\Users\User\source\ppmc\DornerLink\DornerLink_Client\DoX.BAI.ImpEx.Client.ConsoleHost\obj\Debug\DoX.BAI..154ACB0B.Up2Date
